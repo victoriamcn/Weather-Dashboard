@@ -1,6 +1,6 @@
 var apiURLWithKey = 'api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={173d4962b14a682100b481e4cceca14d}'
 var apiKey = '173d4962b14a682100b481e4cceca14d';
-var savedSearch = []
+var savedSearch = [];
 
 //BEGIN WORKING CODE
 
