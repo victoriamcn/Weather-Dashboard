@@ -28,3 +28,4 @@ var savedSearch = []
 //That city is displayed individually in the "citiesfromstorage" div
 
 //Click city "searchhistory" btn
+    //Display the city current and future weather again
