@@ -28,31 +28,34 @@
             <div class="row">
                 <!--SEARCH CITY-->
                 <div class="col">
-                    <div class="input-group-sm mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-sm">Search city here:</span>
+                    <div id="search" class="input-group-sm mb-3">
+                        <span id="inputGroup-sizing-sm" class="input-group-text">Search for a city:</span>
                         <textarea class="form-control" type="text" aria-label="With textarea"
                             aria-describedby="inputGroup-sizing-sm" placeholder="Boston..."></textarea>
                     </div>
-                    <button type="button" class="btn btn-primary btn-sm search">Search</button>
+                    <button id="searchbtn" type="button" class="btn btn-primary btn-sm search">Search</button>
                 </div>
                 <!--DISPLAY CITY AND TODAY'S DATE-->
-                <div class="col displaycity">
+                <div id="cityweather" class="col cityweather">
                     <h2>city/date place holder</h2>
                     <!--Bootstrap List Group
-                    <li class="list-group-item">An item</li>-->
+                    <li class="list-group-item temp">TEMPERATURE</li>
+                    <li class="list-group-item wind">WIND</li>
+                    <li class="list-group-item humidity">HUMIDITY</li>
+                    -->
                 </div>
             </div>
             <!--SECOND ROW-->
             <div class="row">
                 <!--LIST OF SEARCHED CITY(S)-->
-                <div class="col savedcity">
-                    <!--<button type="button" class="btn btn-secondary">
+                <div id="storagecity" class="col storagecity">
+                    <!--<button id="storagecitybtn" type="button" class="btn btn-secondary">
                         (CITY NAME)</button>-->
                 </div>
                 <!--DISPLAY FIVE DAY FORECAST-->
                 <div class="col fiveday">
                     <h3>5-Day Weather Forecast</h3>
-                    <!-- FIVE BOOTSTRAP CARDS
+                    <!-- FIVE BOOTSTRAP CARDS id="fivedayforcast"
                     https://getbootstrap.com/docs/5.3/components/card/ -->
                 </div>
             </div>
