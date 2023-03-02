@@ -17,10 +17,16 @@ function geoLocation(nameofcity) {
             console.log("lon : ", data[0].lon);
             getForecast(data[0].lat, data[0].lon)
         })
+        .catch(function(err) ){
+            //reset input
+            $('.form-control').val('')
+            alert("City not found. Check spelling or search for a city nearby.")
+        }
 }
+
 // fetching the forecast for the lat/lon
 function getForecast(lat, lon) {
-    var apiForecastURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+    var apiForecastURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=${apiKey}`;
     fetch(apiForecastURL)
         .then(function (response) {
             // console.log(response)
@@ -28,39 +34,64 @@ function getForecast(lat, lon) {
         })
         .then(function (data) {
             console.log("DATA of forecast: ", data)
-
+            // cityWeather()
         })
+
+    //Call temp, wind, humidity
 }
+
+// // Fetching the City Temp
+// function fetchCityTemp(temp) {
+//     var apiCityTempURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+//             // console.log(response)
+//             return response.json()
+//         })
+//         .then(function (data) {
+//             console.log("DATA of Temp: ", data)
+//             console.log("temp : ", data[0].list);
+//         })
+// }
+
 
 //Function to Display Current Conditions
 let displayCity = function () {
-    //City Name
-
-    //http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={apiKey}
     //Current Date day.js
     let today = dayjs().format('dddd, MM/DD/YYYY')
-    let city = $('.form-control').val()
+    //City Name
+    let city = $('.form-control').val().trim();
     geoLocation(city)
+    //Temp
+    let cityTemp = $('.temperature');
+
+    //Wind
+    // let cityWind = $('.wind')
+    //Humidity
+    // let cityHumidity = $('.humidity')
 
     //clear before append
     $('#cityweather').empty();
     //$('#cityweather').addClass('currentdate');
     $('#cityweather').append(`<h2 class="currentdate">${today}</h2>`);
     $('#cityweather').append(`<h2 class="city">${city}</h2>`);
-
-
-
-    //Icon with representing weather conditions
-
+    //Icon representing weather conditions
+    // $('#cityweather').append()
     //Temperature
+    $('#cityweather').append(`<li class="list-group-item temperature">Temperature: ${cityTemp}\u00B0F</li>`);
     //Wind
+    $('#cityweather').append(`<li class="list-group-item wind">Wind Speed: ${cityWind} MPH</li>`);
     //Humidity
+    $('#cityweather').append(`<li class="list-group-item humidity">Humidity: ${cityHumidity}%</li>`);
+
 }
 
-//Type a City and CLICK "searchbtn"
+//Type a city name then click search
 $('#searchbtn').on('click', displayCity);
 
-    //Display Five-Day Forecast
+//Display Five-Day Forecast
+// let fiveDayForecastDiv = function(){
+
+// }
+
         //Each Forecast will Have:
             //City Name
             //Current Date
