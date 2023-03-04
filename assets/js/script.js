@@ -68,7 +68,7 @@ function geoLocation(nameofcity) {
 
 // fetching the forecast for the lat/lon and can use function to loop the 5 day future forecast
 function getForecast(lat, lon) {
-    var apiForecastURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+    var apiForecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
     fetch(apiForecastURL)
         .then(function (response) {
             //run search history function
@@ -81,17 +81,17 @@ function getForecast(lat, lon) {
             //current date everyday at 12pm...how to get that
             //dt_txt: "2023-03-04 12:00:00"
             //CURRENT ICON
-            let currentWeatherIcon = data.list.weather.icon[0];
+            let currentWeatherIcon = data.list[6].weather[0].icon;
             $('#currentstats').append(`<i class="currentWeatherIcon">${currentWeatherIcon}</i>`);
             //CURRENT TEMPERATURE
-            let currentTemperature = data.list.main.temp;
+            let currentTemperature = data.list[6].main.temp;
             $('#currentstats').append(`<li class="list-group-item text-right temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
             //CURRENT WIND SPEED
-            let currentWind = data.list.wind.speed;
+            let currentWind = data.list[6].wind.speed;
             $('#currentstats').append(`<li class="list-group-item text-right wind">Wind Speed: ${currentWind} MPH</li>`);
 
             //CURRENT HUMIDITY
-            let currentHumidity = data.list.main.humidity;
+            let currentHumidity = data.list[6].main.humidity;
             $('#currentstats').append(`<li class="list-group-item text-right humidity">Humidity: ${currentHumidity}%</li>`);
         })
 }
