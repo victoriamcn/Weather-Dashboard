@@ -69,7 +69,7 @@ function geoLocation(nameofcity) {
 
 // fetching the forecast for the lat/lon 
 function getForecast(lat, lon) {
-    var apiForecastURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+    var apiForecastURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`;
     fetch(apiForecastURL)
         .then(function (response) {
             // console.log(response)
@@ -77,13 +77,13 @@ function getForecast(lat, lon) {
         })
         .then(function (response) {
             console.log("DATA of forecast: ", response)
+
             //CURRENT ICON
             let iconCodeCurrent = response.list[0].weather[0].icon;
             let iconCurrentURL = 'http://openweathermap.org/img/wn/' + iconCodeCurrent + '.png';
             $('.currentWeatherIcon').attr('src', iconCurrentURL)
             //CURRENT TEMPERATURE
             let currentTemperature = response.list[0].main.temp;
-            //convert to fahrenheit
             //CURRENT WIND SPEED
             let currentWind = response.list[0].wind.speed;
             //CURRENT HUMIDITY
@@ -96,23 +96,21 @@ function getForecast(lat, lon) {
             $('#currentlist').append(`<li class="list-group-item temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
             $('#currentlist').append(`<li class="list-group-item wind">Wind Speed: ${currentWind} MPH</li>`);
             $('#currentlist').append(`<li class="list-group-item humidity">Humidity: ${currentHumidity}%</li>`);
-        })
-        .then(function (response) {
+    
+            
             // using this lat and lon, display a 5-day forecast 12pm
-            let arrayList = response.list[0];
+            let arrayList = response.list;
             for (let i = 0; i < arrayList.length; i++) {
                 if (arrayList[i].dt_txt.split(' ')[1] === '12:00:00') {
-                    let iconCodeCurrent = response.arrayList[0].weather[0].icon;
+                    let iconCodeCurrent = arrayList[0].weather[0].icon;
                     let iconCurrentURL = 'http://openweathermap.org/img/wn/' + iconCodeCurrent + '.png';
                     $('.currentWeatherIcon').attr('src', iconCurrentURL)
                     //CURRENT TEMPERATURE
-                    let futureTemperature = response.arrayList[0].main.temp;
-                    //convert to fahrenheit
-
+                    let futureTemperature = arrayList[0].main.temp;
                     //CURRENT WIND SPEED
-                    let futureWind = response.arrayList[0].wind.speed;
+                    let futureWind = arrayList[0].wind.speed;
                     //CURRENT HUMIDITY
-                    let futureHumidity = response.arrayList[0].main.humidity;
+                    let futureHumidity = arrayList[0].main.humidity;
 
                     $('#fiveday').append(`<div id="card" class="card"></div>`);
                     $('card-body').append(`<h4></h4>`).text(response.list[i].dt_txt.split(" ")[0])
