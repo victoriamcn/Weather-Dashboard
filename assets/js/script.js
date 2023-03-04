@@ -19,16 +19,16 @@ var loadSearchHistory = function (nameofcity) {
 
     //update search array with past searched cities from local storage
     if (search.length > 0) {
-        let searchedCity = localStorage.getItem('searches');
+        let searchedCity = localStorage.getItem('search');
         search = JSON.parse(searchedCity);
     }
 
     //add searched cities to localStorage
     search.push(nameofcity);
-    localStorage.setItem("search", JSON.stringify(search));
+    localStorage.setItem("search", search);
 
     //load history into the div#citiesfromstorage
-    function loadSearchHistory() {
+    function getSearchHistory() {
         //get from local storage
         let savedSearchFromStorage = localStorage.getItem("search");
         if (!savedSearchFromStorage) {
@@ -40,10 +40,10 @@ var loadSearchHistory = function (nameofcity) {
 
         //for loop to make a button for each searched city
         for (let i = 0; i < savedSearchFromStorage.length; i++) {
-            loadSearchHistory(savedSearchFromStorage[i]);
+            getSearchHistory(savedSearchFromStorage[i]);
         }
     }
-
+ getSearchHistory()
 }
 
 // fetching the lat/lon 
@@ -81,7 +81,7 @@ function getForecast(lat, lon) {
             //current date everyday at 12pm...how to get that
             //dt_txt: "2023-03-04 12:00:00"
             //CURRENT ICON
-            let currentWeatherIcon = data.list.weather.icon;
+            let currentWeatherIcon = data.list.weather.icon[0];
             $('#currentstats').append(`<i class="currentWeatherIcon">${currentWeatherIcon}</i>`);
             //CURRENT TEMPERATURE
             let currentTemperature = data.list.main.temp;
