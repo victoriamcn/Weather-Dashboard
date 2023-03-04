@@ -40,7 +40,7 @@ var searchHistory = function (nameofcity) {
 
         //for loop to make a button for each searched city
         for (let i = 0; i < savedSearchFromStorage.length; i++) {
-            searchHistory(savedSearchFromStorage[i]);
+            loadSearchHistory(savedSearchFromStorage[i]);
         }
     }
 
@@ -68,45 +68,48 @@ function geoLocation(nameofcity) {
 
 // fetching the forecast for the lat/lon and can use function to loop the 5 day future forecast
 function getForecast(lat, lon) {
-    var apiForecastURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKeyOneCall}`;
+    var apiForecastURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
     fetch(apiForecastURL)
         .then(function (response) {
             // console.log(response)
-            return response.json()
-        })
+            // return response.json()
+        //run search history function
+        loadSearchHistory(nameofcity);
+
+
         .then(function (data) {
             console.log("DATA of forecast: ", data)
-            //ICON
-            let currentWeatherIcon = $('.currentWeatherIcon');
-            let currentWeatherIconPNG = response.current.weather[0].icon;
-            currentWeatherIcon.attr('src', `https://openweathermap.org/img/wn/${currentWeatherIconPNG}@2x.png`);
-            //Icon Append
+            //current date everyday at 12pm...how to get that
+            //dt_txt: "2023-03-04 12:00:00"
+            //CURRENT ICON
+            let currentWeatherIcon = data.list.weather.icon;
             $('#currentstats').append(`<i class="currentWeatherIcon">${currentWeatherIcon}</i>`);
-            //TEMPERATURE
-            //Temperature Append
+            //CURRENT TEMPERATURE
+            let currentTemperature = data.list.main.temp;
             $('#currentstats').append(`<li class="list-group-item text-right temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
-            //WIND SPEED
-            //Wind Append
+            //CURRENT WIND SPEED
+            let currentWind = data.list.wind.speed;
             $('#currentstats').append(`<li class="list-group-item text-right wind">Wind Speed: ${currentWind} MPH</li>`);
-            //HUMIDITY
-            //Humidity Append
+            
+            //CURRENT HUMIDITY
+            let currentHumidity = data.list.main.humidity;
             $('#currentstats').append(`<li class="list-group-item text-right humidity">Humidity: ${currentHumidity}%</li>`);
         })
-    //when loaded, display search history
+    })
 }
 
-function getCurrentWeather(lat, lon) {
-    var apiOneCallURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}` //&exclude=minutely,hourly,daily,alerts
-    fetch(apiOneCallURL)
-        .then(function (response) {
-            // console.log(response)
-            return response.json()
-        })
-        .then(function (data) {
-            console.log("DATA of current weather: ", data)
-            searchHistory(nameofcity);
-        })
-}
+// function getCurrentWeather(lat, lon) {
+//     var apiOneCallURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}` //&exclude=minutely,hourly,daily,alerts
+//     fetch(apiOneCallURL)
+//         .then(function (response) {
+//             // console.log(response)
+//             return response.json()
+//         })
+//         .then(function (data) {
+//             console.log("DATA of current weather: ", data)
+//             searchHistory(nameofcity);
+//         })
+// }
 
 //Function to Display Current Conditions
 let displayCity = function () {
