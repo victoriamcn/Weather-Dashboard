@@ -6,7 +6,7 @@ var search = [];
 //BEGIN WORKING CODE
 
 //save search history to a list
-var searchHistory = function(nameofcity) {
+var searchHistory = function (nameofcity) {
     // variable for div#citiesfromstorage
     let savedCitiesFromStorage = $('#citiesfromstorage');
     //create button with the City
@@ -18,11 +18,11 @@ var searchHistory = function(nameofcity) {
     savedCitiesFromStorage.append(savedSearchEntry);
 
     //update search array with past searched cities from local storage
-    if (search.length > 0 ){
+    if (search.length > 0) {
         let searchedCity = localStorage.getItem('searches');
         search = JSON.parse(searchedCity);
     }
-    
+
     //add searched cities to localStorage
     search.push(nameofcity);
     localStorage.setItem("search", JSON.stringify(search));
@@ -30,8 +30,8 @@ var searchHistory = function(nameofcity) {
     //load history into the div#citiesfromstorage
     function loadSearchHistory() {
         //get from local storage
-        let savedSearchFromStorage =localStorage.getItem("search");
-        if(!savedSearchFromStorage){
+        let savedSearchFromStorage = localStorage.getItem("search");
+        if (!savedSearchFromStorage) {
             return false;
         }
 
@@ -39,7 +39,7 @@ var searchHistory = function(nameofcity) {
         savedSearchFromStorage = JSON.parse(savedSearchFromStorage);
 
         //for loop to make a button for each searched city
-        for (let i = 0; i<savedSearchFromStorage.length; i++) {
+        for (let i = 0; i < savedSearchFromStorage.length; i++) {
             searchHistory(savedSearchFromStorage[i]);
         }
     }
@@ -53,7 +53,7 @@ function geoLocation(nameofcity) {
         .then(function (response) {
             if (!response.ok) {
                 throw new Error(`HTTP error: ${response.status}`);
-              }
+            }
             // console.log(response)
             return response.json()
         })
@@ -76,17 +76,28 @@ function getForecast(lat, lon) {
         })
         .then(function (data) {
             console.log("DATA of forecast: ", data)
-            // getCurrentWeather(data[0].current[4].temp); //temp, zero-index 3
-            // getCurrentWeather(data[0].current[4].wind); //wind, zero-index 11
-            // getCurrentWeather(data[0].current[4].humidity); //humidity, zero-index 6
-            // getCurrentWeather(data[0].current[4].weather[13].icon); //weather zero-index 13 to access the icon
+            //ICON
+            let currentWeatherIcon = $('.currentWeatherIcon');
+            let currentWeatherIconPNG = response.current.weather[0].icon;
+            currentWeatherIcon.attr('src', `https://openweathermap.org/img/wn/${currentWeatherIconPNG}@2x.png`);
+            //Icon Append
+            $('#currentstats').append(`<i class="currentWeatherIcon">${currentWeatherIcon}</i>`);
+            //TEMPERATURE
+            //Temperature Append
+            $('#currentstats').append(`<li class="list-group-item text-right temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
+            //WIND SPEED
+            //Wind Append
+            $('#currentstats').append(`<li class="list-group-item text-right wind">Wind Speed: ${currentWind} MPH</li>`);
+            //HUMIDITY
+            //Humidity Append
+            $('#currentstats').append(`<li class="list-group-item text-right humidity">Humidity: ${currentHumidity}%</li>`);
         })
-//when loaded, display search history
+    //when loaded, display search history
 }
 
 function getCurrentWeather(lat, lon) {
-     var apiOneCallURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}` //&exclude=minutely,hourly,daily,alerts
-     fetch(apiOneCallURL)
+    var apiOneCallURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}` //&exclude=minutely,hourly,daily,alerts
+    fetch(apiOneCallURL)
         .then(function (response) {
             // console.log(response)
             return response.json()
@@ -105,9 +116,7 @@ let displayCity = function () {
     let city = $('.form-control').val().trim();
     geoLocation(city)
 
-    let currentWeatherIcon = $('.currentWeatherIcon');
-    let currentWeatherIconPNG = response.current.weather[0].icon;
-    currentWeatherIcon.attr('src', `https://openweathermap.org/img/wn/${currentWeatherIconPNG}@2x.png`);
+
 
     //Function to Display Five Day Forecast
     // let displayFiveDay = function(){}
@@ -117,15 +126,6 @@ let displayCity = function () {
     //$('#cityweather').addClass('currentdate');
     $('#cityweather').append(`<h2 class="currentdate">${today}</h2>`);
     $('#cityweather').append(`<h2 class="city">${city}</h2>`);
-    
-    //Icon
-    $('#currentstats').append(`<i class="currentWeatherIcon">${currentWeatherIcon}</i>`);
-    //Temperature
-    $('#currentstats').append(`<li class="list-group-item text-right temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
-    //Wind
-    $('#currentstats').append(`<li class="list-group-item text-right wind">Wind Speed: ${currentWind} MPH</li>`);
-    //Humidity
-    $('#currentstats').append(`<li class="list-group-item text-right humidity">Humidity: ${currentHumidity}%</li>`);
 }
 
 
