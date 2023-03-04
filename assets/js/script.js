@@ -17,7 +17,7 @@ function geoLocation(nameofcity) {
             // console.log("lat : ", data[0].lat);
             // console.log("lon : ", data[0].lon);
             getForecast(data[0].lat, data[0].lon)
-            getCurrentWeather(data[0].lat, data[0].lon)
+            // getCurrentWeather(data[0].lat, data[0].lon)
         })
         .catch(function (err) {
             //reset input
@@ -53,7 +53,7 @@ function getCurrentWeather(q) {
             return response.json()
         })
         .then(function (data) {
-            console.log("DATA of current weather: ", data)
+            // console.log("DATA of current weather: ", data)
         })
 }
 
