@@ -137,8 +137,8 @@ let displayCity = function () {
     //clear before append
     // $('#cityweather').empty();
     //$('#cityweather').addClass('currentdate');
-    $('#cityweather').append(`<h2 class="currentdate">${today}</h2>`);
-    $('#cityweather').append(`<h2 class="city">${city}</h2>`);
+    $('#dateandcity').append(`<h2 class="currentdate">${today}</h2>`);
+    $('#dateandcity').append(`<h2 class="city">${city}</h2>`);
 
     loadSearchHistory()
 }
