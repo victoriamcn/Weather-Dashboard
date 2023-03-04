@@ -73,26 +73,26 @@ function getForecast(lat, lon) {
             // console.log(response)
             return response.json()
         })
-        .then(function (response) {
-            console.log("DATA of forecast: ", response)
+        .then(function (data) {
+            console.log("DATA of forecast: ", data)
             //current date at 12pm [6]
 
             //CURRENT ICON
             // let iconCodeCurrent = response.list.weather[0].icon;
             // let iconCurrentURL = 'http://openweathermap.org/img/w/' + iconCodeCurrent + '.png'
-            // $('.currentWeatherIcon').attr('src', iconCurrentURL)
-            $('#currentstats').append(`<img class="currentWeatherIcon">${currentWeatherIcon}</img>`);
             //CURRENT TEMPERATURE
-            let currentTemperature = response.list.main.temp;
-            $('#currentstats').append(`<li class="list-group-item text-right temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
+            let currentTemperature = data.list.main.temp;
             //CURRENT WIND SPEED
-            let currentWind = response.list.wind.speed;
-            $('#currentstats').append(`<li class="list-group-item text-right wind">Wind Speed: ${currentWind} MPH</li>`);
+            let currentWind = data.list.wind.speed;
             //CURRENT HUMIDITY
-            let currentHumidity = response.list.main.humidity;
-            $('#currentstats').append(`<li class="list-group-item text-right humidity">Humidity: ${currentHumidity}%</li>`);
+            let currentHumidity = data.list.main.humidity;
             
-
+            //APPEND ELEMENTS WITH DATA
+            // $('.currentWeatherIcon').attr('src', iconCurrentURL)
+            // $('#currentstats').append(`<img class="currentWeatherIcon">${currentWeatherIcon}</img>`);
+            $('#currentstats').append(`<li class="list-group-item text-right temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
+            $('#currentstats').append(`<li class="list-group-item text-right wind">Wind Speed: ${currentWind} MPH</li>`);
+            $('#currentstats').append(`<li class="list-group-item text-right humidity">Humidity: ${currentHumidity}%</li>`);
         })
 }
 
