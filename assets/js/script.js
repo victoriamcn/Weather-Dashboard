@@ -6,13 +6,13 @@ var search = [];
 //BEGIN WORKING CODE
 
 //save search history to a list
-var searchHistory = function(cityName) {
+var searchHistory = function(nameofcity) {
     // variable for div#citiesfromstorage
     let savedCitiesFromStorage = $('#citiesfromstorage');
     //create button with the City
     let savedSearchEntry = $("<button>");
     savedSearchEntry.addClass("historybtn");
-    savedSearchEntry.textContent(cityName);
+    savedSearchEntry.textContent(nameofcity);
 
     //append
     savedCitiesFromStorage.append(savedSearchEntry);
@@ -24,7 +24,7 @@ var searchHistory = function(cityName) {
     }
     
     //add searched cities to localStorage
-    search.push(cityName);
+    search.push(nameofcity);
     localStorage.setItem("search", JSON.stringify(search));
 
     //load history into the div#citiesfromstorage
@@ -45,8 +45,6 @@ var searchHistory = function(cityName) {
     }
 
 }
-
-
 
 // fetching the lat/lon 
 function geoLocation(nameofcity) {
@@ -95,6 +93,7 @@ function getCurrentWeather(lat, lon) {
         })
         .then(function (data) {
             console.log("DATA of current weather: ", data)
+            searchHistory(nameofcity);
         })
 }
 
@@ -106,7 +105,9 @@ let displayCity = function () {
     let city = $('.form-control').val().trim();
     geoLocation(city)
 
-    let weatherIcon
+    let currentWeatherIcon = $('.currentWeatherIcon');
+    let currentWeatherIconPNG = response.current.weather[0].icon;
+    currentWeatherIcon.attr('src', `https://openweathermap.org/img/wn/${currentWeatherIconPNG}@2x.png`);
 
     //Function to Display Five Day Forecast
     // let displayFiveDay = function(){}
@@ -118,7 +119,7 @@ let displayCity = function () {
     $('#cityweather').append(`<h2 class="city">${city}</h2>`);
     
     //Icon
-    $('#currentstats').append(`<i class="weathericon">${weatherIcon}</i>`);
+    $('#currentstats').append(`<i class="currentWeatherIcon">${currentWeatherIcon}</i>`);
     //Temperature
     $('#currentstats').append(`<li class="list-group-item text-right temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
     //Wind
