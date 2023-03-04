@@ -1,6 +1,6 @@
 
 var apiKey = '173d4962b14a682100b481e4cceca14d';
-var apiKeyOneCall = 'e4509171ebf4172def6450e5008aeb87';
+//var apiKeyOneCall = '5accacce95343426ef0e8de035c83daf';
 var savedSearch = [];
 
 //BEGIN WORKING CODE
@@ -28,7 +28,7 @@ function geoLocation(nameofcity) {
 
 // fetching the forecast for the lat/lon and can use function to loop the 5 day future forecast
 function getForecast(lat, lon) {
-    var apiForecastURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKeyOneCall}`;
+    var apiForecastURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
     fetch(apiForecastURL)
         .then(function (response) {
             // console.log(response)
@@ -36,10 +36,10 @@ function getForecast(lat, lon) {
         })
         .then(function (data) {
             console.log("DATA of forecast: ", data)
-            getCurrentWeather(data[0].current[4].temp); //temp, zero-index 3
-            getCurrentWeather(data[0].current[4].wind); //wind, zero-index 11
-            getCurrentWeather(data[0].current[4].humidity); //humidity, zero-index 6
-            getCurrentWeather(data[0].current[4].weather[13].icon); //weather zero-index 13 to access the icon
+            // getCurrentWeather(data[0].current[4].temp); //temp, zero-index 3
+            // getCurrentWeather(data[0].current[4].wind); //wind, zero-index 11
+            // getCurrentWeather(data[0].current[4].humidity); //humidity, zero-index 6
+            // getCurrentWeather(data[0].current[4].weather[13].icon); //weather zero-index 13 to access the icon
         })
 
     //Call temp, wind, humidity
