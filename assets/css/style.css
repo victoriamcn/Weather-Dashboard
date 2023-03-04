@@ -4,3 +4,7 @@
     --leftside: ;
     --cards: ;
 }
+
+.card {
+    width: 16%;
+}

@@ -1,50 +1,26 @@
 
 var apiKey = '173d4962b14a682100b481e4cceca14d';
 //var apiKeyOneCall = '5accacce95343426ef0e8de035c83daf';
-var search = [];
+var searchedArray = [];
 
 //BEGIN WORKING CODE
-
-//save search history to a list
-var loadSearchHistory = function (nameofcity) {
+//That city is listed individually in the "citiesfromstorage" div
+function createSearchHistory(nameofcity) {
     // variable for div#citiesfromstorage
     let savedCityEl = $('#citiesfromstorage');
     //create button with the City
-    let savedSearchEntry = $("<button>");
-    savedSearchEntry.addClass("btn btn-light historybtn");
+    let savedSearchBtn = $("<button>");
+    savedSearchBtn,attr('id', 'historybtn');
+    savedSearchBtn.addClass("btn btn-light historybtn");
     $("<button>").text(nameofcity);
-
-    //append
-    savedCityEl.append(savedSearchEntry);
-
-    //update search array with past searched cities from local storage
-    if (search.length > 0) {
-        search.push(nameofcity);
-        localStorage.setItem("search", search);
-
-        let searchedCity = localStorage.getItem('search');
-        search = JSON.stringify(searchedCity);
-        //add searched cities to localStorage
-
-    }
-
-    //load history into the div#citiesfromstorage
-    function getSearchHistory() {
-        //get from local storage
-        let savedSearchFromStorage = localStorage.getItem("search");
-        if (!savedSearchFromStorage) {
-            return false;
-        }
-
-        //array maker
-        savedSearchFromStorage = JSON.parse(savedSearchFromStorage);
-
-        //for loop to make a button for each searched city
-        for (let i = 0; i < savedSearchFromStorage.length; i++) {
-            getSearchHistory(savedSearchFromStorage[i]);
-        }
-    }
-    getSearchHistory()
+    //append savedsearchbtn
+    savedCityEl.append(savedSearchBtn);
+    localStorage.setItem("search", )
+    
+    $('#historybtn').on('click', function(){
+        let fromSearch = $(this).text();
+        displayCity(fromSearch);
+    })
 }
 
 // fetching the lat/lon 
@@ -94,17 +70,20 @@ function getForecast(lat, lon) {
             $('#currentstats').append(`<img class="icon">${iconCodeCurrent}</img>`);
             $('#currentstats').append(`<ul id="currentlist" class="list-group list-group-flush currentlist"></ul>`);
             $('#currentlist').append(`<li class="list-group-item temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
-            $('#currentlist').append(`<li class="list-group-item wind">Wind Speed: ${currentWind} MPH</li>`);
+            $('#currentlist').append(`<li class="list-group-item wind">Wind Speed: ${currentWind}mph</li>`);
             $('#currentlist').append(`<li class="list-group-item humidity">Humidity: ${currentHumidity}%</li>`);
     
-            
+            //Then Display Five Day Forecast
             // using this lat and lon, display a 5-day forecast 12pm
             let arrayList = response.list;
             for (let i = 0; i < arrayList.length; i++) {
                 if (arrayList[i].dt_txt.split(' ')[1] === '12:00:00') {
-                    let iconCodeCurrent = arrayList[0].weather[0].icon;
-                    let iconCurrentURL = 'http://openweathermap.org/img/wn/' + iconCodeCurrent + '.png';
-                    $('.currentWeatherIcon').attr('src', iconCurrentURL)
+                    //DATE
+                    let futureDate = arrayList.dt_txt;
+                    //ICON
+                    let iconCodeFuture = arrayList[0].weather[0].icon;
+                    let iconFutureURL = `http://openweathermap.org/img/wn/${iconCodeFuture}.png`;
+                    $('.futureicon').attr('src', iconFutureURL)
                     //CURRENT TEMPERATURE
                     let futureTemperature = arrayList[0].main.temp;
                     //CURRENT WIND SPEED
@@ -112,35 +91,24 @@ function getForecast(lat, lon) {
                     //CURRENT HUMIDITY
                     let futureHumidity = arrayList[0].main.humidity;
 
-                    $('#fiveday').append(`<div id="card" class="card"></div>`);
-                    $('card-body').append(`<h4></h4>`).text(response.list[i].dt_txt.split(" ")[0])
+                    $('#cardssection').append(`<div id="card" class="card"></div>`);
                     $('#card').append(`<div id="card-body" class="card-body"></div>`);
-                    ;
-                    //icon
+                    //DATE
+                    $('.card').append(`<h4></h4>`).text(futureDate);
+                    //ICON
+                    $('.card').append(`<img class="icon">${iconCodeFuture}</img>`);
+                    //UL
                     $('#card-body').append(`<ul class="list-group list-group-flush futurelist"></ul>`);
+                    //TEMPERATURE
                     $('.futurelist').append(`<li class="list-group-item temperature">Temperature: ${futureTemperature}\u00B0F</li>`);
-                    $('.futurelist').append(`<li class="list-group-item wind">Temperature: ${futureWind}\u00B0F</li>`);
-                    $('.futurelist').append(`<li class="list-group-item humidity">Temperature: ${futureHumidity}\u00B0F</li>`);
+                    //WIND
+                    $('.futurelist').append(`<li class="list-group-item wind">Wind Speen: ${futureWind} mph</li>`);
+                    //HUMIDITY
+                    $('.futurelist').append(`<li class="list-group-item humidity">Humidity: ${futureHumidity}%</li>`);
                 }
             }
         })
-
-
-
 };
-
-// function getCurrentWeather(lat, lon) {
-//     var apiOneCallURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}` //&exclude=minutely,hourly,daily,alerts
-//     fetch(apiOneCallURL)
-//         .then(function (response) {
-//             // console.log(response)
-//             return response.json()
-//         })
-//         .then(function (data) {
-//             console.log("DATA of current weather: ", data)
-//             searchHistory(nameofcity);
-//         })
-// }
 
 //Function to Display Current Conditions
 let displayCity = function () {
@@ -156,34 +124,39 @@ let displayCity = function () {
     $('#dateandcity').append(`<h2 class="currentdate">${today}</h2>`);
     $('#dateandcity').append(`<h2 class="city">${city}</h2>`);
 
-    loadSearchHistory()
 };
-
-
 
 //Type a city name then click search
 $('#searchbtn').on('click', displayCity);
 
+//Check data in localStorage for any cities
+function checkLocalStorage() {
+    let storedCity = localStorage.getItem('search');
+    if (!storedCity) {
+    console.log("No saved data here.");
+    } else {
+        storedCity.trim();
+        searchedArray = storedCity.split(',');
+        for (let i = 0; i dataArray.length; i++){
+            createSearchHistory(searchedArray[i])
+        }
+    }
+    
 
+}
 
-    //Function to Display Five Day Forecast
-    // let displayFiveDay = function(){}
-//Display Five-Day Forecast
-// let fiveDayForecastDiv = function(){
-
-// }
-
-        //Each Forecast will Have:
-            //City Name
-            //Current Date
-            //Icon with representing weather conditions
-                //Temperature
-                //Wind
-                //Humidity
-
-//That city is added to localStorage
-
-//That city is displayed individually in the "citiesfromstorage" div
-
-//Click city "searchhistory" btn
-    //Display the city current and future weather again
+//Set City to localStorage
+function saveSearchedCity(nameofcity) {
+    let data = localStorage.getItem('search');
+    if (data) {
+        console.log(data, q)
+    } else {
+        data = nameofcity;
+        localStorage.setItem('search', data);
+    }
+    if data.indexOf(nameofcity) === -1 {
+        data = data + ',' + nameofcity;
+        localStorage.setItem('search', data);
+        createSearchHistory(nameofcity)
+    }
+}
