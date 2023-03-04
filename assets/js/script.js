@@ -73,27 +73,26 @@ function getForecast(lat, lon) {
             // console.log(response)
             return response.json()
         })
-        .then(function (data) {
-            console.log("DATA of forecast: ", data)
+        .then(function (response) {
+            console.log("DATA of forecast: ", response)
             //current date at 12pm [6]
 
             //CURRENT ICON
-            let iconCodeCurrent = data.list.weather[0].icon;
-            let iconCurrentURL = 'http://openweathermap.org/img/w/' + iconCodeCurrent + '.png'
-            $('.currentWeatherIcon').attr('src', iconCurrentURL)
+            // let iconCodeCurrent = response.list.weather[0].icon;
+            // let iconCurrentURL = 'http://openweathermap.org/img/w/' + iconCodeCurrent + '.png'
+            // $('.currentWeatherIcon').attr('src', iconCurrentURL)
             $('#currentstats').append(`<img class="currentWeatherIcon">${currentWeatherIcon}</img>`);
             //CURRENT TEMPERATURE
-            let currentTemperature = data.list.main[0].temp;
+            let currentTemperature = response.list.main.temp;
             $('#currentstats').append(`<li class="list-group-item text-right temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
             //CURRENT WIND SPEED
-            let currentWind = data.list.wind[0].speed;
+            let currentWind = response.list.wind.speed;
             $('#currentstats').append(`<li class="list-group-item text-right wind">Wind Speed: ${currentWind} MPH</li>`);
             //CURRENT HUMIDITY
-            let currentHumidity = data.list.main[0].humidity;
+            let currentHumidity = response.list.main.humidity;
             $('#currentstats').append(`<li class="list-group-item text-right humidity">Humidity: ${currentHumidity}%</li>`);
             
-            console.log(err)
-            console.log(err.response)
+
         })
 }
 
@@ -124,7 +123,7 @@ let displayCity = function () {
     $('#cityweather').append(`<h2 class="currentdate">${today}</h2>`);
     $('#cityweather').append(`<h2 class="city">${city}</h2>`);
 
-    getForecast()
+ loadSearchHistory()
 }
 
 
