@@ -78,25 +78,25 @@ function getForecast(lat, lon) {
                 //current date at 12pm [6]
 
             //CURRENT ICON
-            let iconCodeCurrent = response.weather[0].icon;
+            let iconCodeCurrent = response.list[0].weather[0].icon;
             let iconCurrentURL = 'http:/ / openweathermap.org / img / w / ' + iconCodeCurrent + '.png'
             //CURRENT TEMPERATURE
-            let currentTemperature = data.main.temp;
+            let currentTemperature = response.list[0].main.temp;
             //CURRENT WIND SPEED
-            let currentWind = data.wind.speed;
+            let currentWind = response.list[0].wind.speed;
             //CURRENT HUMIDITY
-            let currentHumidity = data.main.humidity;
+            let currentHumidity = response.list[0].main.humidity;
 
             //APPEND ELEMENTS WITH DATA
             $('.currentWeatherIcon').attr('src', iconCurrentURL)
-            $('#currentstats').append(`<img class="currentWeatherIcon">${currentWeatherIcon}</img>`);
+            $('#currentstats').append(`<img class="currentWeatherIcon">${iconCodeCurrent}</img>`);
             $('#currentstats').append(`<li class="list-group-item text-right temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
             $('#currentstats').append(`<li class="list-group-item text-right wind">Wind Speed: ${currentWind} MPH</li>`);
             $('#currentstats').append(`<li class="list-group-item text-right humidity">Humidity: ${currentHumidity}%</li>`);
         })
 
     // using this lat and lon, display a 5-day forecast
-    
+
 }
 
 // let currentWeather = function (city) {
@@ -135,7 +135,7 @@ let displayCity = function () {
     geoLocation(city)
 
     //clear before append
-    $('#cityweather').empty();
+    // $('#cityweather').empty();
     //$('#cityweather').addClass('currentdate');
     $('#cityweather').append(`<h2 class="currentdate">${today}</h2>`);
     $('#cityweather').append(`<h2 class="city">${city}</h2>`);
