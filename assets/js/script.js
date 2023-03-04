@@ -1,5 +1,6 @@
 
 var apiKey = '173d4962b14a682100b481e4cceca14d';
+var apiKeyOneCall = 'e4509171ebf4172def6450e5008aeb87';
 var savedSearch = [];
 
 //BEGIN WORKING CODE
@@ -27,7 +28,7 @@ function geoLocation(nameofcity) {
 
 // fetching the forecast for the lat/lon and can use function to loop the 5 day future forecast
 function getForecast(lat, lon) {
-    var apiForecastURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+    var apiForecastURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKeyOneCall}`;
     fetch(apiForecastURL)
         .then(function (response) {
             // console.log(response)
