@@ -6,13 +6,13 @@ var search = [];
 //BEGIN WORKING CODE
 
 //save search history to a list
-var searchHistory = function (nameofcity) {
+var loadSearchHistory = function (nameofcity) {
     // variable for div#citiesfromstorage
     let savedCitiesFromStorage = $('#citiesfromstorage');
     //create button with the City
     let savedSearchEntry = $("<button>");
-    savedSearchEntry.addClass("historybtn");
-    savedSearchEntry.textContent(nameofcity);
+    savedSearchEntry.addClass("btn btn-light historybtn");
+    $("<button>").text(nameofcity);
 
     //append
     savedCitiesFromStorage.append(savedSearchEntry);
@@ -71,12 +71,11 @@ function getForecast(lat, lon) {
     var apiForecastURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
     fetch(apiForecastURL)
         .then(function (response) {
+            //run search history function
+            loadSearchHistory();
             // console.log(response)
-            // return response.json()
-        //run search history function
-        loadSearchHistory(nameofcity);
-
-
+            return response.json()
+        })
         .then(function (data) {
             console.log("DATA of forecast: ", data)
             //current date everyday at 12pm...how to get that
@@ -90,12 +89,11 @@ function getForecast(lat, lon) {
             //CURRENT WIND SPEED
             let currentWind = data.list.wind.speed;
             $('#currentstats').append(`<li class="list-group-item text-right wind">Wind Speed: ${currentWind} MPH</li>`);
-            
+
             //CURRENT HUMIDITY
             let currentHumidity = data.list.main.humidity;
             $('#currentstats').append(`<li class="list-group-item text-right humidity">Humidity: ${currentHumidity}%</li>`);
         })
-    })
 }
 
 // function getCurrentWeather(lat, lon) {
@@ -119,11 +117,6 @@ let displayCity = function () {
     let city = $('.form-control').val().trim();
     geoLocation(city)
 
-
-
-    //Function to Display Five Day Forecast
-    // let displayFiveDay = function(){}
-
     //clear before append
     $('#cityweather').empty();
     //$('#cityweather').addClass('currentdate');
@@ -136,6 +129,10 @@ let displayCity = function () {
 //Type a city name then click search
 $('#searchbtn').on('click', displayCity);
 
+
+
+    //Function to Display Five Day Forecast
+    // let displayFiveDay = function(){}
 //Display Five-Day Forecast
 // let fiveDayForecastDiv = function(){
 
