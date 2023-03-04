@@ -65,9 +65,9 @@ function geoLocation(nameofcity) {
         })
 }
 
-// fetching the forecast for the lat/lon and can use function to loop the 5 day future forecast
+// fetching the forecast for the lat/lon 
 function getForecast(lat, lon) {
-    var apiForecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+    var apiForecastURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
     fetch(apiForecastURL)
         .then(function (response) {
             // console.log(response)
@@ -78,7 +78,8 @@ function getForecast(lat, lon) {
             //current date at 12pm [6]
 
             //CURRENT ICON
-            let currentWeatherIcon = data.list.weather.icon; //removing [6]
+            let iconCodeCurrent = a.weather[0].icon;
+            let iconCurrentURL = 'http://openweathermap.org/img/w/' + iconCodeCurrent + '.png'
             $('#currentstats').append(`<i class="currentWeatherIcon">${currentWeatherIcon}</i>`);
             //CURRENT TEMPERATURE
             let currentTemperature = data.list[6].main.temp;
