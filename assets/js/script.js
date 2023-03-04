@@ -78,17 +78,18 @@ function getForecast(lat, lon) {
             //current date at 12pm [6]
 
             //CURRENT ICON
-            let iconCodeCurrent = a.weather[0].icon;
+            let iconCodeCurrent = data.list.weather[0].icon;
             let iconCurrentURL = 'http://openweathermap.org/img/w/' + iconCodeCurrent + '.png'
-            $('#currentstats').append(`<i class="currentWeatherIcon">${currentWeatherIcon}</i>`);
+            $('.currentWeatherIcon').attr('src', iconCurrentURL)
+            $('#currentstats').append(`<img class="currentWeatherIcon">${currentWeatherIcon}</img>`);
             //CURRENT TEMPERATURE
-            let currentTemperature = data.list[6].main.temp;
+            let currentTemperature = data.list.main[0].temp;
             $('#currentstats').append(`<li class="list-group-item text-right temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
             //CURRENT WIND SPEED
-            let currentWind = data.list[6].wind.speed;
+            let currentWind = data.list.wind[0].speed;
             $('#currentstats').append(`<li class="list-group-item text-right wind">Wind Speed: ${currentWind} MPH</li>`);
             //CURRENT HUMIDITY
-            let currentHumidity = data.list[6].main.humidity;
+            let currentHumidity = data.list.main[0].humidity;
             $('#currentstats').append(`<li class="list-group-item text-right humidity">Humidity: ${currentHumidity}%</li>`);
             
             console.log(err)
