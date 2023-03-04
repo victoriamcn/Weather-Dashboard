@@ -73,43 +73,45 @@ function getForecast(lat, lon) {
             // console.log(response)
             return response.json()
         })
-        .then(function (data) {
-            console.log("DATA of forecast: ", data)
-            //current date at 12pm [6]
+        .then(function (response) {
+            console.log("DATA of forecast: ", response)
+                //current date at 12pm [6]
 
             //CURRENT ICON
-            // let iconCodeCurrent = response.list.weather[0].icon;
-            // let iconCurrentURL = 'http://openweathermap.org/img/w/' + iconCodeCurrent + '.png'
+            let iconCodeCurrent = response.weather[0].icon;
+            let iconCurrentURL = 'http:/ / openweathermap.org / img / w / ' + iconCodeCurrent + '.png'
             //CURRENT TEMPERATURE
-            let currentTemperature = data.list.main.temp;
+            let currentTemperature = data.main.temp;
             //CURRENT WIND SPEED
-            let currentWind = data.list.wind.speed;
+            let currentWind = data.wind.speed;
             //CURRENT HUMIDITY
-            let currentHumidity = data.list.main.humidity;
+            let currentHumidity = data.main.humidity;
 
-            currentWeather(icon, temp, wind, humidity)
+            //APPEND ELEMENTS WITH DATA
+            $('.currentWeatherIcon').attr('src', iconCurrentURL)
+            $('#currentstats').append(`<img class="currentWeatherIcon">${currentWeatherIcon}</img>`);
+            $('#currentstats').append(`<li class="list-group-item text-right temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
+            $('#currentstats').append(`<li class="list-group-item text-right wind">Wind Speed: ${currentWind} MPH</li>`);
+            $('#currentstats').append(`<li class="list-group-item text-right humidity">Humidity: ${currentHumidity}%</li>`);
         })
-}
 
-let currentWeather = function (icon, temp, wind, humidity) {
-    //CURRENT ICON
-    // let iconCodeCurrent = response.list.weather[0].icon;
-    // let iconCurrentURL = 'http://openweathermap.org/img/w/' + iconCodeCurrent + '.png'
-    //CURRENT TEMPERATURE
-    let currentTemperature = $('.temperature').val()
+    // using this lat and lon, display a 5-day forecast
     
-    //CURRENT WIND SPEED
-    let currentWind =  $('.wind').val()
-    //CURRENT HUMIDITY
-    let currentHumidity =  $('.humidity').val()
-
-    //APPEND ELEMENTS WITH DATA
-    // $('.currentWeatherIcon').attr('src', iconCurrentURL)
-    // $('#currentstats').append(`<img class="currentWeatherIcon">${currentWeatherIcon}</img>`);
-    $('#currentstats').append(`<li class="list-group-item text-right temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
-    $('#currentstats').append(`<li class="list-group-item text-right wind">Wind Speed: ${currentWind} MPH</li>`);
-    $('#currentstats').append(`<li class="list-group-item text-right humidity">Humidity: ${currentHumidity}%</li>`);
 }
+
+// let currentWeather = function (city) {
+//     let queryURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`
+//     //CURRENT ICON
+//     // let iconCodeCurrent = response.list.weather[0].icon;
+//     // let iconCurrentURL = 'http://openweathermap.org/img/w/' + iconCodeCurrent + '.png'
+//     //CURRENT TEMPERATURE
+//     let currentTemperature = $('.temperature').val()
+
+//     //CURRENT WIND SPEED
+//     let currentWind = $('.wind').val()
+//     //CURRENT HUMIDITY
+//     let currentHumidity = $('.humidity').val()
+// }
 
 // function getCurrentWeather(lat, lon) {
 //     var apiOneCallURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}` //&exclude=minutely,hourly,daily,alerts
