@@ -20,12 +20,11 @@ var loadSearchHistory = function (nameofcity) {
     //update search array with past searched cities from local storage
     if (search.length > 0) {
         let searchedCity = localStorage.getItem('search');
-        search = JSON.parse(searchedCity);
+        search = JSON.stringify(searchedCity);
+        //add searched cities to localStorage
+        search.push(nameofcity);
+        localStorage.setItem("search", search);
     }
-
-    //add searched cities to localStorage
-    search.push(nameofcity);
-    localStorage.setItem("search", search);
 
     //load history into the div#citiesfromstorage
     function getSearchHistory() {
@@ -43,7 +42,7 @@ var loadSearchHistory = function (nameofcity) {
             getSearchHistory(savedSearchFromStorage[i]);
         }
     }
- getSearchHistory()
+    getSearchHistory()
 }
 
 // fetching the lat/lon 
@@ -71,17 +70,15 @@ function getForecast(lat, lon) {
     var apiForecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
     fetch(apiForecastURL)
         .then(function (response) {
-            //run search history function
-            loadSearchHistory();
             // console.log(response)
             return response.json()
         })
         .then(function (data) {
             console.log("DATA of forecast: ", data)
-            //current date everyday at 12pm...how to get that
-            //dt_txt: "2023-03-04 12:00:00"
+            //current date at 12pm [6]
+
             //CURRENT ICON
-            let currentWeatherIcon = data.list[6].weather[0].icon;
+            let currentWeatherIcon = data.list.weather.icon; //removing [6]
             $('#currentstats').append(`<i class="currentWeatherIcon">${currentWeatherIcon}</i>`);
             //CURRENT TEMPERATURE
             let currentTemperature = data.list[6].main.temp;
@@ -89,10 +86,12 @@ function getForecast(lat, lon) {
             //CURRENT WIND SPEED
             let currentWind = data.list[6].wind.speed;
             $('#currentstats').append(`<li class="list-group-item text-right wind">Wind Speed: ${currentWind} MPH</li>`);
-
             //CURRENT HUMIDITY
             let currentHumidity = data.list[6].main.humidity;
             $('#currentstats').append(`<li class="list-group-item text-right humidity">Humidity: ${currentHumidity}%</li>`);
+            
+            console.log(err)
+            console.log(err.response)
         })
 }
 
@@ -122,6 +121,8 @@ let displayCity = function () {
     //$('#cityweather').addClass('currentdate');
     $('#cityweather').append(`<h2 class="currentdate">${today}</h2>`);
     $('#cityweather').append(`<h2 class="city">${city}</h2>`);
+
+    getForecast()
 }
 
 
