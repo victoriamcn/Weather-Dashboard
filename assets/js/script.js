@@ -86,14 +86,29 @@ function getForecast(lat, lon) {
             let currentWind = data.list.wind.speed;
             //CURRENT HUMIDITY
             let currentHumidity = data.list.main.humidity;
-            
-            //APPEND ELEMENTS WITH DATA
-            // $('.currentWeatherIcon').attr('src', iconCurrentURL)
-            // $('#currentstats').append(`<img class="currentWeatherIcon">${currentWeatherIcon}</img>`);
-            $('#currentstats').append(`<li class="list-group-item text-right temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
-            $('#currentstats').append(`<li class="list-group-item text-right wind">Wind Speed: ${currentWind} MPH</li>`);
-            $('#currentstats').append(`<li class="list-group-item text-right humidity">Humidity: ${currentHumidity}%</li>`);
+
+            currentWeather(icon, temp, wind, humidity)
         })
+}
+
+let currentWeather = function (icon, temp, wind, humidity) {
+    //CURRENT ICON
+    // let iconCodeCurrent = response.list.weather[0].icon;
+    // let iconCurrentURL = 'http://openweathermap.org/img/w/' + iconCodeCurrent + '.png'
+    //CURRENT TEMPERATURE
+    let currentTemperature = $('.temperature').val()
+    
+    //CURRENT WIND SPEED
+    let currentWind =  $('.wind').val()
+    //CURRENT HUMIDITY
+    let currentHumidity =  $('.humidity').val()
+
+    //APPEND ELEMENTS WITH DATA
+    // $('.currentWeatherIcon').attr('src', iconCurrentURL)
+    // $('#currentstats').append(`<img class="currentWeatherIcon">${currentWeatherIcon}</img>`);
+    $('#currentstats').append(`<li class="list-group-item text-right temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
+    $('#currentstats').append(`<li class="list-group-item text-right wind">Wind Speed: ${currentWind} MPH</li>`);
+    $('#currentstats').append(`<li class="list-group-item text-right humidity">Humidity: ${currentHumidity}%</li>`);
 }
 
 // function getCurrentWeather(lat, lon) {
@@ -123,7 +138,7 @@ let displayCity = function () {
     $('#cityweather').append(`<h2 class="currentdate">${today}</h2>`);
     $('#cityweather').append(`<h2 class="city">${city}</h2>`);
 
- loadSearchHistory()
+    loadSearchHistory()
 }
 
 
