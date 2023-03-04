@@ -90,16 +90,38 @@ function getForecast(lat, lon) {
 
             //APPEND ELEMENTS WITH DATA
             $('#currentstats').innerHTML = `<img class="icon">${iconCodeCurrent}</img>`;
-            // $('#currentstats').append(`<img class="icon">${iconCodeCurrent}</img>`);
+            $('#currentstats').append(`<img class="icon">${iconCodeCurrent}</img>`);
             $('#currentstats').append(`<li class="list-group-item text-right temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
             $('#currentstats').append(`<li class="list-group-item text-right wind">Wind Speed: ${currentWind} MPH</li>`);
             $('#currentstats').append(`<li class="list-group-item text-right humidity">Humidity: ${currentHumidity}%</li>`);
         })
+        .then(function (response) {
+            // using this lat and lon, display a 5-day forecast 12pm
+            let arrayList = response.list[0];
+            for (let i = 0; i < arrayList.length; i++) {
+                if (arrayList[i].dt_txt.split(' ')[1] === '12:00:00') {
+                    let iconCodeCurrent = response.list[0].weather[0].icon;
+                    let iconCurrentURL = 'http://openweathermap.org/img/wn/' + iconCodeCurrent + '.png';
+                    $('.currentWeatherIcon').attr('src', iconCurrentURL)
+                    //CURRENT TEMPERATURE
+                    let futureTemperature = response.list[0].main.temp;
+                    //convert to Farenhiet
 
-    // using this lat and lon, display a 5-day forecast
-    apiForecastURL.forEach(day =>{
+                    //CURRENT WIND SPEED
+                    let futureWind = response.list[0].wind.speed;
+                    //CURRENT HUMIDITY
+                    let futureHumidity = response.list[0].main.humidity;
 
-    })
+                    $('#fiveday').append(`<div id="card" class="card"></div>`);
+                    $('#card').append(`<div id="card-body" class="card-body"></div>`);
+                    $('card-body').append(`<li class="text-right temperature">Temperature: ${futureTemperature}\u00B0F</li>`);
+                    $('card-body').append(`<li class="text-right wind">Temperature: ${futureWind}\u00B0F</li>`);
+                    $('card-body').append(`<li class="text-right humidity">Temperature: ${futureHumidity}\u00B0F</li>`);
+                }
+            }
+        })
+
+
 
 };
 
