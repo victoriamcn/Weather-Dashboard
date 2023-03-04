@@ -45,8 +45,8 @@ function getForecast(lat, lon) {
     //Call temp, wind, humidity
 }
 
-function getCurrentWeather(lat, lon) {
-     var apiOneCallURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,daily,alerts&appid=${apiKey}`
+function getCurrentWeather(q) {
+     var apiOneCallURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + q + "&limit=5&appid=" + apiKey;
      fetch(apiOneCallURL)
         .then(function (response) {
             // console.log(response)
