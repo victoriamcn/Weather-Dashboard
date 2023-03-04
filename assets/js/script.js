@@ -35,15 +35,17 @@ function getForecast(lat, lon) {
         })
         .then(function (data) {
             console.log("DATA of forecast: ", data)
-
-            // cityWeather()
+            getCurrentWeather(data[0].current[4].temp); //temp, zero-index 3
+            getCurrentWeather(data[0].current[4].wind); //wind, zero-index 11
+            getCurrentWeather(data[0].current[4].humidity); //humidity, zero-index 6
+            getCurrentWeather(data[0].current[4].weather[13].icon); //weather zero-index 13 to access the icon
         })
 
     //Call temp, wind, humidity
 }
 
 function getCurrentWeather(lat, lon) {
-     var apiOneCallURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,daily,alerts&appid={apiKey}`
+     var apiOneCallURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,daily,alerts&appid=${apiKey}`
      fetch(apiOneCallURL)
         .then(function (response) {
             // console.log(response)
@@ -52,6 +54,24 @@ function getCurrentWeather(lat, lon) {
         .then(function (data) {
             console.log("DATA of current weather: ", data)
         })
+}
+
+//Function to Display Current Conditions
+let displayCity = function () {
+    //Current Date day.js
+    let today = dayjs().format('dddd, MM/DD/YYYY')
+    //City Name
+    let city = $('.form-control').val().trim();
+    geoLocation(city)
+
+    //Function to Display Five Day Forecast
+    // let displayFiveDay = function(){}
+
+    //clear before append
+    $('#cityweather').empty();
+    //$('#cityweather').addClass('currentdate');
+    $('#cityweather').append(`<h2 class="currentdate">${today}</h2>`);
+    $('#cityweather').append(`<h2 class="city">${city}</h2>`);
 
     //Temp
     let currentTemperature = $('.temperature');
@@ -75,26 +95,6 @@ function getCurrentWeather(lat, lon) {
     $('#currentstats').append(`<li class="list-group-item text-right wind">Wind Speed: ${currentWind} MPH</li>`);
     //Humidity
     $('#currentstats').append(`<li class="list-group-item text-right humidity">Humidity: ${currentHumidity}%</li>`);
-}
-
-//Function to Display Current Conditions
-let displayCity = function () {
-    //Current Date day.js
-    let today = dayjs().format('dddd, MM/DD/YYYY')
-    //City Name
-    let city = $('.form-control').val().trim();
-    geoLocation(city)
-
-    //Function to Display Five Day Forecast
-    // let displayFiveDay = function(){}
-
-    //clear before append
-    $('#cityweather').empty();
-    //$('#cityweather').addClass('currentdate');
-    $('#cityweather').append(`<h2 class="currentdate">${today}</h2>`);
-    $('#cityweather').append(`<h2 class="city">${city}</h2>`);
-
-    getCurrentWeather()
 }
 
 
