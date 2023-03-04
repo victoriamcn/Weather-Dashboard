@@ -1,34 +1,76 @@
 
 var apiKey = '173d4962b14a682100b481e4cceca14d';
 //var apiKeyOneCall = '5accacce95343426ef0e8de035c83daf';
-var savedSearch = [];
+var search = [];
 
 //BEGIN WORKING CODE
+
+//save search history to a list
+var searchHistory = function(cityName) {
+    // variable for div#citiesfromstorage
+    let savedCitiesFromStorage = $('#citiesfromstorage');
+    //create button with the City
+    let savedSearchEntry = $("<button>");
+    savedSearchEntry.addClass("historybtn");
+    savedSearchEntry.textContent(cityName);
+
+    //append
+    savedCitiesFromStorage.append(savedSearchEntry);
+
+    //update search array with past searched cities from local storage
+    if (search.length > 0 ){
+        let searchedCity = localStorage.getItem('searches');
+        search = JSON.parse(searchedCity);
+    }
+    
+    //add searched cities to localStorage
+    search.push(cityName);
+    localStorage.setItem("search", JSON.stringify(search));
+
+    //load history into the div#citiesfromstorage
+    function loadSearchHistory() {
+        //get from local storage
+        let savedSearchFromStorage =localStorage.getItem("search");
+        if(!savedSearchFromStorage){
+            return false;
+        }
+
+        //array maker
+        savedSearchFromStorage = JSON.parse(savedSearchFromStorage);
+
+        //for loop to make a button for each searched city
+        for (let i = 0; i<savedSearchFromStorage.length; i++) {
+            searchHistory(savedSearchFromStorage[i]);
+        }
+    }
+
+}
+
+
+
 // fetching the lat/lon 
 function geoLocation(nameofcity) {
     var apiCityURL = `http://api.openweathermap.org/geo/1.0/direct?q=${nameofcity}&limit=1&appid=${apiKey}`
     fetch(apiCityURL)
         .then(function (response) {
+            if (!response.ok) {
+                throw new Error(`HTTP error: ${response.status}`);
+              }
             // console.log(response)
             return response.json()
         })
         .then(function (data) {
-            // console.log("DATA of geolocation: ", data)
-            // console.log("lat : ", data[0].lat);
-            // console.log("lon : ", data[0].lon);
+            console.log("DATA of geolocation: ", data)
+            console.log("lat : ", data[0].lat);
+            console.log("lon : ", data[0].lon);
             getForecast(data[0].lat, data[0].lon)
             // getCurrentWeather(data[0].lat, data[0].lon)
-        })
-        .catch(function (err) {
-            //reset input
-            $('.form-control').val('')
-            alert("City not found. Check spelling or search for a city nearby.")
         })
 }
 
 // fetching the forecast for the lat/lon and can use function to loop the 5 day future forecast
 function getForecast(lat, lon) {
-    var apiForecastURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+    var apiForecastURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKeyOneCall}`;
     fetch(apiForecastURL)
         .then(function (response) {
             // console.log(response)
@@ -41,19 +83,18 @@ function getForecast(lat, lon) {
             // getCurrentWeather(data[0].current[4].humidity); //humidity, zero-index 6
             // getCurrentWeather(data[0].current[4].weather[13].icon); //weather zero-index 13 to access the icon
         })
-
-    //Call temp, wind, humidity
+//when loaded, display search history
 }
 
-function getCurrentWeather(q) {
-     var apiOneCallURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + q + "&limit=5&appid=" + apiKey;
+function getCurrentWeather(lat, lon) {
+     var apiOneCallURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}` //&exclude=minutely,hourly,daily,alerts
      fetch(apiOneCallURL)
         .then(function (response) {
             // console.log(response)
             return response.json()
         })
         .then(function (data) {
-            // console.log("DATA of current weather: ", data)
+            console.log("DATA of current weather: ", data)
         })
 }
 
@@ -65,6 +106,8 @@ let displayCity = function () {
     let city = $('.form-control').val().trim();
     geoLocation(city)
 
+    let weatherIcon
+
     //Function to Display Five Day Forecast
     // let displayFiveDay = function(){}
 
@@ -73,23 +116,9 @@ let displayCity = function () {
     //$('#cityweather').addClass('currentdate');
     $('#cityweather').append(`<h2 class="currentdate">${today}</h2>`);
     $('#cityweather').append(`<h2 class="city">${city}</h2>`);
-
-    //Temp
-    let currentTemperature = $('.temperature');
-    getCurrentWeather(currentTemperature)
-    //Wind
-    let currentWind = $('.wind')
-    getCurrentWeather(currentWind)
-    //Humidity
-    let currentHumidity = $('.humidity')
-    getCurrentWeather(currentHumidity)
-
-    //Icon representing weather conditions
-    let weatherIcon = $('.weathericon')
-    getCurrentWeather(weatherIcon)
     
     //Icon
-    $('#currentstats').append(`<i class="weathericon">${weatherIcon}\u00B0F</i>`);
+    $('#currentstats').append(`<i class="weathericon">${weatherIcon}</i>`);
     //Temperature
     $('#currentstats').append(`<li class="list-group-item text-right temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
     //Wind
