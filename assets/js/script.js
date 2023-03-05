@@ -118,11 +118,11 @@ function saveSearchedCity(storedata) {
     let citysearched = $('.form-control').val().trim();
     let data = localStorage.getItem('search');
     if (!data) {
-        data = storedata;
+        data = citysearched;
         localStorage.setItem('search', citysearched);
     } else {
         console.log(data, storedata);
-        createSearchHistory(citysearched)
+        createSearchHistory(data)
     }
     // if (data.indexOf(nameofcity) === -1) {
     //     data = data + ',' + nameofcity;
@@ -139,7 +139,7 @@ let displayCity = function () {
     geoLocation(city)
 
     //clear before append
-    $('#cityweather').empty();
+    $('#dateandcity').empty();
     //$('#cityweather').addClass('currentdate');
     $('#dateandcity').append(`<h2 class="currentdate">${today}</h2>`);
     $('#dateandcity').append(`<h2 class="city">${city}</h2>`);

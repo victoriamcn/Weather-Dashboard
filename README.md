@@ -67,7 +67,7 @@ THEN I am again presented with current and future conditions for that city
 
 ## Credits
 
-**Shoutouts**
+**Shout-outs**
 
 **Tutorials**
 
