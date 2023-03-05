@@ -1,10 +1,46 @@
+/* COLOR PALETTE */
 :root {
-    --subitbtn: ;
-    --historybtn: ;
-    --leftside: ;
-    --cards: ;
+    --submitbtn: #e4d9ac;
+    --historybtn: #5484ac;
+    --leftside: #226ba3;
+    --cards: #84d4fc;
+    --header: #226ba3;
+    --dark: #131e24;
 }
 
+/* BODY */
+
+body {
+    font-size: medium;
+    color: dark;
+}
+
+/* HEADER */
+header{
+    background-color: var(--header);
+
+}
+
+/* LEFT SIDE */
+.leftside {
+    padding: ;
+    background-color: var(--leftside);
+}
+
+/* BUTTONS */
+
+.search {
+    background-color: var(--submitbtn);
+}
+
+
+
+/* CARDS */
 .card {
     width: 16%;
+    background-color: var(--cards);
+    border: var(--dark);
 }
+
+/* */
+/* */
