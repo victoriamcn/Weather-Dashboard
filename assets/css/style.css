@@ -6,6 +6,7 @@
     --cards: #84d4fc;
     --header: #226ba3;
     --dark: #131e24;
+    --light: #FAF9F6;
 }
 
 /* BODY */
@@ -13,6 +14,7 @@
 body {
     font-size: medium;
     color: dark;
+    background-color: var(--light);
 }
 
 /* HEADER */
@@ -33,7 +35,10 @@ header{
     background-color: var(--submitbtn);
 }
 
-
+#historybtn {
+    background-color: var(--historybtn);
+    color: var(--light);
+}
 
 /* CARDS */
 .card {

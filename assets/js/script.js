@@ -156,6 +156,8 @@ function checkLocalStorage() {
     if (!storedCity) {
     console.log("No saved data here.");
     } else {
+        // let citysearched = $('.form-control').val().trim();
+
         storedCity.trim();
         searchedArray = storedCity.split(',');
         for (let i = 0; i < searchedArray.length; i++){
