@@ -30,13 +30,11 @@ function createSearchHistoryList() {
 function setLocalStorage() {
     //Set City to localStorage
     //key is the string "search"
-    let citysearched = $(this).siblings('input').val().trim(); //value as input value
+    let citysearched = $('input').val().trim(); //value as input value
 
     localStorage.setItem('search', citysearched);
 
-    displayCity()
-    createSearchHistoryList()
-}
+    }
 
 //Type a city name then click search
 $('#searchbtn').on('click', setLocalStorage());
@@ -53,9 +51,9 @@ function geoLocation(nameofcity) {
     var apiCityURL = `http://api.openweathermap.org/geo/1.0/direct?q=${nameofcity}&limit=1&appid=${apiKey}`
     fetch(apiCityURL)
         .then(function (response) {
-            if (!response.ok) {
-                throw new Error(`HTTP error: ${response.status}`);
-            }
+            // if (!response.ok) {
+            //     throw new Error(`HTTP error: ${response.status}`);
+            // }
             // console.log(response)
             return response.json()
         })
@@ -154,7 +152,8 @@ function displayCity() {
     $('#dateandcity').append(`<h2 class="currentdate">${today}</h2>`);
     $('#dateandcity').append(`<h2 class="city">${city}</h2>`);
     
-    saveSearchedCity(city);
+    createSearchHistoryList();
+    setLocalStorage();
 };
 
 
