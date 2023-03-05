@@ -5,23 +5,48 @@ var searchedArray = [];
 
 //BEGIN WORKING CODE
 //That city is listed individually in the "citiesfromstorage" div
-function createSearchHistory(nameofcity) {
-    // variable for div#citiesfromstorage
-    let savedCityEl = $('#citiesfromstorage');
+function createSearchHistoryList() {
+    // Get search
+    let storedData = JSON.parse(localStorage.getItem('search'));
+
     //create button with the City
-    let savedSearchBtn = $("<button>");
-    savedSearchBtn.attr('id', 'historybtn');
-    savedSearchBtn.addClass("btn btn-light historybtn");
-    $("<button>").text(nameofcity);
-    //append savedsearchbtn
-    savedCityEl.append(savedSearchBtn);
-    localStorage.setItem("search", nameofcity)
-    
-    $('#historybtn').on('click', function(){
-        let fromSearch = $(this).text();
-        displayCity(fromSearch);
-    })
+    let savedList = document.createElement('ul');
+    let listEl = document.createElement('li');
+    if (!storedData) {
+        storageArray = []
+    }
+
+    for (let i = 0; i < storageArray.length; i++){
+        listEl.append(`<button id="historybtn" class="btn btn-light historybtn">${storageArray[i]}</button>`);
+        savedList.append(listEl)
+    }
+    // savedSearchBtn.attr('id', 'historybtn');
+    // savedSearchBtn.addClass("btn btn-light historybtn");
+    // $("<button>").text(storedData);
+    // //append savedsearchbtn
+    // $('#citiesfromstorage').append();
 }
+
+function setLocalStorage() {
+    //Set City to localStorage
+    //key is the string "search"
+    let citysearched = $(this).siblings('input').val().trim(); //value as input value
+
+    localStorage.setItem('search', citysearched);
+
+    displayCity()
+    createSearchHistoryList()
+}
+
+//Type a city name then click search
+$('#searchbtn').on('click', setLocalStorage());
+
+
+//Click search history list and then display
+$('#historybtn').on('click', function(){
+    let fromSearch = $(this).text();
+    displayCity(fromSearch);
+})
 
 // fetching the lat/lon 
 function geoLocation(nameofcity) {
@@ -91,8 +116,8 @@ function getForecast(lat, lon) {
                     //CURRENT HUMIDITY
                     let futureHumidity = arrayList[0].main.humidity;
                     
-                    //clear before append
-                    $('#cardssection').empty();
+                    // //clear before append
+                    // $('#cardssection').empty();
                     //create cards
                     $('#cardssection').append(`<div id="card" class="card"></div>`);
                     $('#card').append(`<div id="card-body" class="card-body"></div>`);
@@ -113,25 +138,10 @@ function getForecast(lat, lon) {
         })
 };
 
-//Set City to localStorage
-function saveSearchedCity(storedata) {
-    let citysearched = $('.form-control').val().trim();
-    let data = localStorage.getItem('search');
-    if (!data) {
-        data = citysearched;
-        localStorage.setItem('search', citysearched);
-    } else {
-        console.log(data, storedata);
-        createSearchHistory(data)
-    }
-    // if (data.indexOf(nameofcity) === -1) {
-    //     data = data + ',' + nameofcity;
-    //     localStorage.setItem('search', data);
-    // }
-}
+
 
 //Function to Display Current Conditions
-let displayCity = function () {
+function displayCity() {
     //Current Date day.js
     let today = dayjs().format('dddd, MM/DD/YYYY')
     //City Name
@@ -144,26 +154,24 @@ let displayCity = function () {
     $('#dateandcity').append(`<h2 class="currentdate">${today}</h2>`);
     $('#dateandcity').append(`<h2 class="city">${city}</h2>`);
     
-    saveSearchedCity();
+    saveSearchedCity(city);
 };
 
-//Type a city name then click search
-$('#searchbtn').on('click', displayCity);
 
-//Check data in localStorage for any cities
-function checkLocalStorage() {
-    let storedCity = localStorage.getItem('search');
-    if (!storedCity) {
-    console.log("No saved data here.");
-    } else {
-        // let citysearched = $('.form-control').val().trim();
+// //Check data in localStorage for any cities
+// function checkLocalStorage() {
+//     let storedCity = localStorage.getItem('search');
+//     if (!storedCity) {
+//     console.log("No saved data here.");
+//     } else {
+//         // let citysearched = $('.form-control').val().trim();
 
-        storedCity.trim();
-        searchedArray = storedCity.split(',');
-        for (let i = 0; i < searchedArray.length; i++){
-            createSearchHistory(searchedArray[i])
-        }
-    }
-}
-//when the window loads, check local storage
-$(window).load(checkLocalStorage())
+//         storedCity.trim();
+//         searchedArray = storedCity.split(',');
+//         for (let i = 0; i < searchedArray.length; i++){
+//             createSearchHistory(searchedArray[i])
+//         }
+//     }
+// }
+// //when the window loads, check local storage
+// $(window).load(checkLocalStorage())

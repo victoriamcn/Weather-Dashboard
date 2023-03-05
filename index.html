@@ -28,15 +28,15 @@
             <div class="first row">
                 <!--SEARCH CITY-->
                 <div class="col-4 leftside">
-                    <div id="search" class="input-group-sm mb-3">
-                        <span id="inputGroup-sizing-sm" class="input-group-text">Search for a city:</span>
-                        <input type="text" class="form-control" aria-label="With textarea"
+                    <div id="searcharea" class="input-group-sm mb-3">
+                        <span id="inputGroup-sizing-sm" class="input-group-text">Search for a city below:</span>
+                        <input type="text" id="search" class="form-control" aria-label="With textarea"
                             aria-describedby="inputGroup-sizing-sm" placeholder="Rome..." />
+                        <button id="searchbtn" type="button" class="btn btn-primary btn-sm search">Search</button>
                     </div>
-                    <button id="searchbtn" type="button" class="btn btn-primary btn-sm search">Search</button>
                 </div>
                 <!--DISPLAY CITY AND TODAY'S DATE-->
-                <div class="col-8" >
+                <div id="currentweather" class="col-8">
                     <div id="dateandcity" class="dateandcity">
                     </div>
                     <div id="currentstats" class="col currentstats">
