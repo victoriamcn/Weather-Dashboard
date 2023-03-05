@@ -10,12 +10,12 @@ function createSearchHistory(nameofcity) {
     let savedCityEl = $('#citiesfromstorage');
     //create button with the City
     let savedSearchBtn = $("<button>");
-    savedSearchBtn,attr('id', 'historybtn');
+    savedSearchBtn.attr('id', 'historybtn');
     savedSearchBtn.addClass("btn btn-light historybtn");
     $("<button>").text(nameofcity);
     //append savedsearchbtn
     savedCityEl.append(savedSearchBtn);
-    localStorage.setItem("search", )
+    localStorage.setItem("search", nameofcity)
     
     $('#historybtn').on('click', function(){
         let fromSearch = $(this).text();
@@ -110,6 +110,23 @@ function getForecast(lat, lon) {
         })
 };
 
+//Set City to localStorage
+function saveSearchedCity(storedata) {
+    let citysearched = $('.form-control').val().trim();
+    let data = localStorage.getItem('search');
+    if (!data) {
+        data = storedata;
+        localStorage.setItem('search', citysearched);
+    } else {
+        console.log(data, storedata);
+        createSearchHistory(citysearched)
+    }
+    // if (data.indexOf(nameofcity) === -1) {
+    //     data = data + ',' + nameofcity;
+    //     localStorage.setItem('search', data);
+    // }
+}
+
 //Function to Display Current Conditions
 let displayCity = function () {
     //Current Date day.js
@@ -123,7 +140,8 @@ let displayCity = function () {
     //$('#cityweather').addClass('currentdate');
     $('#dateandcity').append(`<h2 class="currentdate">${today}</h2>`);
     $('#dateandcity').append(`<h2 class="city">${city}</h2>`);
-
+    
+    saveSearchedCity();
 };
 
 //Type a city name then click search
@@ -137,26 +155,10 @@ function checkLocalStorage() {
     } else {
         storedCity.trim();
         searchedArray = storedCity.split(',');
-        for (let i = 0; i dataArray.length; i++){
+        for (let i = 0; i < searchedArray.length; i++){
             createSearchHistory(searchedArray[i])
         }
     }
-    
-
 }
-
-//Set City to localStorage
-function saveSearchedCity(nameofcity) {
-    let data = localStorage.getItem('search');
-    if (data) {
-        console.log(data, q)
-    } else {
-        data = nameofcity;
-        localStorage.setItem('search', data);
-    }
-    if data.indexOf(nameofcity) === -1 {
-        data = data + ',' + nameofcity;
-        localStorage.setItem('search', data);
-        createSearchHistory(nameofcity)
-    }
-}
+//when the window loads, check local storage
+$(window).load(checkLocalStorage())
