@@ -90,7 +90,10 @@ function getForecast(lat, lon) {
                     let futureWind = arrayList[0].wind.speed;
                     //CURRENT HUMIDITY
                     let futureHumidity = arrayList[0].main.humidity;
-
+                    
+                    //clear before append
+                    $('#cardssection').empty();
+                    //create cards
                     $('#cardssection').append(`<div id="card" class="card"></div>`);
                     $('#card').append(`<div id="card-body" class="card-body"></div>`);
                     //DATE
@@ -136,7 +139,7 @@ let displayCity = function () {
     geoLocation(city)
 
     //clear before append
-    // $('#cityweather').empty();
+    $('#cityweather').empty();
     //$('#cityweather').addClass('currentdate');
     $('#dateandcity').append(`<h2 class="currentdate">${today}</h2>`);
     $('#dateandcity').append(`<h2 class="city">${city}</h2>`);
