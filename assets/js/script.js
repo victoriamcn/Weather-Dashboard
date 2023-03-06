@@ -1,51 +1,7 @@
 
-var apiKey = '173d4962b14a682100b481e4cceca14d';
-//var apiKeyOneCall = '5accacce95343426ef0e8de035c83daf';
-var searchedArray = [];
+let apiKey = '173d4962b14a682100b481e4cceca14d';
 
 //BEGIN WORKING CODE
-//That city is listed individually in the "citiesfromstorage" div
-function createSearchHistoryList() {
-    // Get search
-    let storedData = JSON.parse(localStorage.getItem('search'));
-
-    //create button with the City
-    let savedList = document.createElement('ul');
-    let listEl = document.createElement('li');
-    if (!storedData) {
-        storageArray = []
-    }
-
-    for (let i = 0; i < storageArray.length; i++){
-        listEl.append(`<button id="historybtn" class="btn btn-light historybtn">${storageArray[i]}</button>`);
-        savedList.append(listEl)
-    }
-    // savedSearchBtn.attr('id', 'historybtn');
-    // savedSearchBtn.addClass("btn btn-light historybtn");
-    // $("<button>").text(storedData);
-    // //append savedsearchbtn
-    // $('#citiesfromstorage').append();
-}
-
-function setLocalStorage() {
-    //Set City to localStorage
-    //key is the string "search"
-    let citysearched = $('input').val().trim(); //value as input value
-
-    localStorage.setItem('search', citysearched);
-
-    }
-
-//Type a city name then click search
-$('#searchbtn').on('click', setLocalStorage());
-
-
-//Click search history list and then display
-$('#historybtn').on('click', function(){
-    let fromSearch = $(this).text();
-    displayCity(fromSearch);
-})
-
 // fetching the lat/lon 
 function geoLocation(nameofcity) {
     var apiCityURL = `http://api.openweathermap.org/geo/1.0/direct?q=${nameofcity}&limit=1&appid=${apiKey}`
@@ -95,7 +51,7 @@ function getForecast(lat, lon) {
             $('#currentlist').append(`<li class="list-group-item temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
             $('#currentlist').append(`<li class="list-group-item wind">Wind Speed: ${currentWind}mph</li>`);
             $('#currentlist').append(`<li class="list-group-item humidity">Humidity: ${currentHumidity}%</li>`);
-    
+
             //Then Display Five Day Forecast
             // using this lat and lon, display a 5-day forecast 12pm
             let arrayList = response.list;
@@ -113,7 +69,7 @@ function getForecast(lat, lon) {
                     let futureWind = arrayList[0].wind.speed;
                     //CURRENT HUMIDITY
                     let futureHumidity = arrayList[0].main.humidity;
-                    
+
                     // //clear before append
                     // $('#cardssection').empty();
                     //create cards
@@ -151,11 +107,49 @@ function displayCity() {
     //$('#cityweather').addClass('currentdate');
     $('#dateandcity').append(`<h2 class="currentdate">${today}</h2>`);
     $('#dateandcity').append(`<h2 class="city">${city}</h2>`);
-    
-    createSearchHistoryList();
+
+    function setLocalStorage() {
+        //Set City to localStorage
+        let searchedArray = JSON.parse(localStorage.getItem('seachedArray')) || [];
+        if (searchedArray.includes(city)) {
+            return;
+        } else {
+            searchedArray.push(city)
+        }
+        localStorage.setItem('searchedArray', JSON.stringify(searchedArray));
+    }
+
+    //That city is listed individually in the "citiesfromstorage" div
+    function createSearchHistoryList() {
+        // Get search
+        let storedData = JSON.parse(localStorage.getItem('searchedArray'));
+
+        //create button with the City
+        let savedList = document.createElement('ul');
+        let listEl = document.createElement('li');
+        if (!storedData) {
+            storedData = []
+        }
+
+        for (let i = 0; i < storedData.length; i++) {
+            listEl.append(`<button class="btn btn-light historybtn">${storedData[i]}</button>`);
+            $('.historybtn').attr('id', 'historybtn')
+            savedList.append(listEl)
+        }
+    }
+
     setLocalStorage();
+    createSearchHistoryList();
 };
 
+//Click search history list and then display
+// $('#historybtn').on('click', function () {
+//     let fromSearch = $(this).text();
+//     displayCity(fromSearch);
+// })
+
+//Type a city name then click search
+$('#searchbtn').on('click', displayCity());
 
 // //Check data in localStorage for any cities
 // function checkLocalStorage() {
