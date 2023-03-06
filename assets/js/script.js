@@ -100,6 +100,7 @@ function displayCity() {
     let today = dayjs().format('dddd, MM/DD/YYYY')
     //City Name
     let city = $('.form-control').val().trim();
+    console.log(city)
     geoLocation(city)
 
     //clear before append
@@ -149,7 +150,7 @@ function displayCity() {
 // })
 
 //Type a city name then click search
-$('#searchbtn').on('click', displayCity());
+$('#searchbtn').on('click', displayCity);
 
 // //Check data in localStorage for any cities
 // function checkLocalStorage() {
