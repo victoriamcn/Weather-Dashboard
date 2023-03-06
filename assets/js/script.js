@@ -122,26 +122,20 @@ $('#searchbtn').on('click', displayCity);
 //Check data in localStorage for any cities
 function checkLocalStorage() {
     let storedCity = JSON.parse(localStorage.getItem('searchedArray'));
-    if (storedCity === null) {
-        console.log("No saved data here.");
+    if (storedCity != null) {
+        for (let i = 0; i < storedCity.length; i++) {
+            $('#citiesfromstorage').append(`<button type="button" id="historybtn" class="col historybtn">${storedCityObj[i]}</button>`);
+            // Click search history list and then display
+            $('#historybtn').on('click', function () {
+                let clickedCity = $(this).val();
+                displayCity(clickedCity);
+            });
+        }
+    } else {
         storedCity = []
     }
-
-    //create button with the City
-    $('#citiesfromstorage').append(`<ul class="futureul"></ul>`);
-    let listEl = $('.futureul').append(`<li class="1"></li>`);
-    if (storedCity === null) {
-        storedCity = []
-    }
-    for (let i = 0; i < storedCity.length; i++) {
-        listEl.append(`<button type="button" id="historybtn" class="historybtn">${storedCity[i]}</button>`);
-        // Click search history list and then display
-        $('#historybtn').on('click', function () {
-            let clickedCity = $(this).val();
-            displayCity(clickedCity);
-        });
-    }
-
 }
+
+$('window').on('load', checkLocalStorage)
 
 
