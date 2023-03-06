@@ -46,7 +46,7 @@ function getForecast(lat, lon) {
             $('#currentlist').append(`<li class="list-group-item humidity">Humidity: ${humidity}%</li>`);
 
             for (let i = 0; i < 5; i++) {
-                if (response.list[i].dt_txt.split(' ')[i] === '12:00:00') {
+                if (response.list[i].dt_txt.split(' ')[1] === '12:00:00') {
                     //DATE
                     let futureDate = dayjs().add(i, 'day').format('dddd, MM/DD/YYYY');
                     let iconcodefuture = response.list[i].weather.icon;
