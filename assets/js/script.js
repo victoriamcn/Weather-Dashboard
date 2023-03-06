@@ -18,7 +18,6 @@ function geoLocation(nameofcity) {
             console.log("lat : ", data[0].lat);
             console.log("lon : ", data[0].lon);
             getForecast(data[0].lat, data[0].lon)
-            // getCurrentWeather(data[0].lat, data[0].lon)
         })
 }
 
@@ -33,59 +32,44 @@ function getForecast(lat, lon) {
         .then(function (response) {
             console.log("DATA of forecast: ", response)
 
-            //CURRENT ICON
-            let iconCodeCurrent = response.list[0].weather[0].icon;
-            let iconCurrentURL = 'http://openweathermap.org/img/wn/' + iconCodeCurrent + '.png';
-            $('.currentWeatherIcon').attr('src', iconCurrentURL)
-            //CURRENT TEMPERATURE
-            let currentTemperature = response.list[0].main.temp;
-            //CURRENT WIND SPEED
-            let currentWind = response.list[0].wind.speed;
-            //CURRENT HUMIDITY
-            let currentHumidity = response.list[0].main.humidity;
+            let iconcode = response.list[0].weather[0].icon;
+            let iconURL = 'http://openweathermap.org/img/wn/' + iconcode + '.png';
+            let temperature = response.list[0].main.temp;
+            let wind = response.list[0].wind.speed;
+            let humidity = response.list[0].main.humidity;
 
             //APPEND ELEMENTS WITH DATA
-            $('#currentstats').innerHTML = `<img class="icon">${iconCodeCurrent}</img>`;
-            $('#currentstats').append(`<img class="icon">${iconCodeCurrent}</img>`);
+            $('#currentstats').append(`<img class="icon" src="${iconURL}"></img>`);
             $('#currentstats').append(`<ul id="currentlist" class="list-group list-group-flush currentlist"></ul>`);
-            $('#currentlist').append(`<li class="list-group-item temperature">Temperature: ${currentTemperature}\u00B0F</li>`);
-            $('#currentlist').append(`<li class="list-group-item wind">Wind Speed: ${currentWind}mph</li>`);
-            $('#currentlist').append(`<li class="list-group-item humidity">Humidity: ${currentHumidity}%</li>`);
-
-            //Then Display Five Day Forecast
-            // using this lat and lon, display a 5-day forecast 12pm
-            let arrayList = response.list;
-            for (let i = 0; i < arrayList.length; i++) {
-                if (arrayList[i].dt_txt.split(' ')[1] === '12:00:00') {
+            $('#currentlist').append(`<li class="list-group-item temperature">Temperature: ${temperature}\u00B0F</li>`);
+            $('#currentlist').append(`<li class="list-group-item wind">Wind Speed: ${wind}mph</li>`);
+            $('#currentlist').append(`<li class="list-group-item humidity">Humidity: ${humidity}%</li>`);
+        })
+        .then(function (data) {
+            console.log('DATA of Five Day Forecast: ', data)
+            for (let i = 0; i < 5; i++) {
+                if ([i].dt_txt.split(' ')[1] === '12:00:00') {
                     //DATE
-                    let futureDate = arrayList.dt_txt;
-                    //ICON
-                    let iconCodeFuture = arrayList[0].weather[0].icon;
-                    let iconFutureURL = `http://openweathermap.org/img/wn/${iconCodeFuture}.png`;
-                    $('.futureicon').attr('src', iconFutureURL)
-                    //CURRENT TEMPERATURE
-                    let futureTemperature = arrayList[0].main.temp;
-                    //CURRENT WIND SPEED
-                    let futureWind = arrayList[0].wind.speed;
-                    //CURRENT HUMIDITY
-                    let futureHumidity = arrayList[0].main.humidity;
+                    let futureDate = dayjs().add(i, 'day').format('dddd, MM/DD/YYYY');
+                    let iconcodefuture = data.list[i].weather.icon;
+                    let iconURLfuture = 'http://openweathermap.org/img/wn/' + iconcodefuture + '.png';
+                    let futureTemperature = data.list[i].main.temp;
+                    let futureWind = data.list[i].wind.speed;
+                    let futureHumidity = data.list[i].main.humidity;
 
                     // //clear before append
                     // $('#cardssection').empty();
-                    //create cards
+
+                    //CREATE THE FORECAST CARDS
                     $('#cardssection').append(`<div id="card" class="card"></div>`);
                     $('#card').append(`<div id="card-body" class="card-body"></div>`);
-                    //DATE
-                    $('.card').append(`<h4></h4>`).text(futureDate);
-                    //ICON
-                    $('.card').append(`<img class="icon">${iconCodeFuture}</img>`);
-                    //UL
+                    $('.card').append(`<h4>${futureDate}</h4>`);
+                    $('.card').append(`<img src="${iconURLfuture}"></img>`);
+                    //CREATE UL for the Forecast
                     $('#card-body').append(`<ul class="list-group list-group-flush futurelist"></ul>`);
-                    //TEMPERATURE
+                    //FORECAST
                     $('.futurelist').append(`<li class="list-group-item temperature">Temperature: ${futureTemperature}\u00B0F</li>`);
-                    //WIND
-                    $('.futurelist').append(`<li class="list-group-item wind">Wind Speen: ${futureWind} mph</li>`);
-                    //HUMIDITY
+                    $('.futurelist').append(`<li class="list-group-item wind">Wind Speed: ${futureWind} mph</li>`);
                     $('.futurelist').append(`<li class="list-group-item humidity">Humidity: ${futureHumidity}%</li>`);
                 }
             }
@@ -115,9 +99,9 @@ function displayCity() {
         if (searchedCity.includes(city)) {
             return;
         } else {
-            searchedArray.push(city)
+            searchedCity.push(city)
         }
-        localStorage.setItem('searchedArray', JSON.stringify(searchedArray));
+        localStorage.setItem('searchedCity', JSON.stringify(searchedCity));
     }
 
     //That city is listed individually in the "citiesfromstorage" div
@@ -145,34 +129,30 @@ function displayCity() {
 $('#searchbtn').on('click', displayCity);
 
 
+    // //Check data in localStorage for any cities
+    // function checkLocalStorage() {
+    //     let storedCity = JSON.parse(localStorage.getItem('searchedArray'));
+    //     if (storedCity === null) {
+    //         console.log("No saved data here.");
+    //         storedCity = []
+    //     }
+
+    //     //create button with the City
+    //     $('#citiesfromstorage').append(`<ul class="futureul"></ul>`);
+    //     let listEl = $('.futureul').append(`<li class="1"></li>`);
+    //     if (storedCity === null) {
+    //         storedCity = []
+    //     }
+    //     for (let i = 0; i < storedCity.length; i++) {
+    //         listEl.append(`<button class="historybtn">${storedCity[i]}</button>`);
+    //         $('.historybtn').attr('id', 'historybtn');
+    //         // Click search history list and then display
+    //         $('#historybtn').on('click', function () {
+    //             let clickedCity = $(this).val();
+    //             displayCity(clickedCity);
+    //         });
+    //     }
+
+    // }
 
 
-
-//Check data in localStorage for any cities
-function checkLocalStorage() {
-    let storedCity = JSON.parse(localStorage.getItem('searchedArray'));
-    if (storedCity === null) {
-        console.log("No saved data here.");
-        storedCity = []
-    }
-
-    //create button with the City
-    $('#citiesfromstorage').append(`<ul class="futureul"></ul>`);
-    let listEl = $('.futureul').append(`<li class="1"></li>`);
-    if (storedData === null) {
-        storedData = []
-    }
-
-    for (let i = 0; i < storedData.length; i++) {
-        listEl.append(`<button class="btn historybtn">${storedData[i]}</button>`);
-        $('.historybtn').attr('id', 'historybtn');
-        // Click search history list and then display
-        $('#historybtn').on('click', function () {
-            let clickedCity = $(this).text();
-            displayCity(clickedCity);
-        });
-    }
-}
-
-// //when the window loads, check local storage
-// $(window).load(checkLocalStorage())
