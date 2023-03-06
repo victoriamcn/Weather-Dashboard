@@ -18,9 +18,9 @@ body {
 }
 
 /* HEADER */
-header{
+header {
     background-color: var(--header);
-
+    color: var(--light);
 }
 
 /* LEFT SIDE */

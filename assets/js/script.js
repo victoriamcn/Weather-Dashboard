@@ -132,7 +132,7 @@ function displayCity() {
         }
 
         for (let i = 0; i < storedData.length; i++) {
-            listEl.append(`<button class="btn btn-light historybtn">${storedData[i]}</button>`);
+            listEl.append(`<button class="btn historybtn">${storedData[i]}</button>`);
             $('.historybtn').attr('id', 'historybtn')
             savedList.append(listEl)
         }
