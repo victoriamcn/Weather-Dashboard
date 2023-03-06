@@ -29,16 +29,25 @@ header {
     background-color: var(--leftside);
 }
 
+li {
+    list-style-type: none;
+}
+
 /* BUTTONS */
 
-.search {
+button.search {
     background-color: var(--submitbtn);
 }
 
-#historybtn {
+button#historybtn {
+    width: 75%;
     background-color: var(--historybtn);
     color: var(--light);
 }
+
+/* CURRENT DAY */
+
+div
 
 /* CARDS */
 .card {
