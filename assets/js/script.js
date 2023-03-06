@@ -37,14 +37,13 @@ function getForecast(lat, lon) {
             let temperature = response.list[0].main.temp;
             let wind = response.list[0].wind.speed;
             let humidity = response.list[0].main.humidity;
-            //CLEAR DATA BEFORE APPEND
-            $('#currentweather').empty();
+            
             //APPEND ELEMENTS WITH DATA
-            $('#currentstats').append(`<img class="icon" src="${iconURL}"></img>`);
-            $('#currentstats').append(`<ul id="currentlist" class="list-group list-group-flush currentlist"></ul>`);
-            $('#currentlist').append(`<li class="list-group-item temperature">Temperature: ${temperature}\u00B0F</li>`);
-            $('#currentlist').append(`<li class="list-group-item wind">Wind Speed: ${wind}mph</li>`);
-            $('#currentlist').append(`<li class="list-group-item humidity">Humidity: ${humidity}%</li>`);
+            $('#currentstats').empty().append(`<img class="icon" src="${iconURL}"></img>`);
+            $('#currentstats').empty().append(`<ul id="currentlist" class="list-group list-group-flush currentlist"></ul>`);
+            $('#currentlist').empty().append(`<li class="list-group-item temperature">Temperature: ${temperature}\u00B0F</li>`);
+            $('#currentlist').empty().append(`<li class="list-group-item wind">Wind Speed: ${wind}mph</li>`);
+            $('#currentlist').empty().append(`<li class="list-group-item humidity">Humidity: ${humidity}%</li>`);
 
             // NEXT FIVE DAYS
             for (let i = 1; i <= 5; i++) {
@@ -58,16 +57,16 @@ function getForecast(lat, lon) {
                 let futureHumidity = response.list[i * 5].main.humidity;
 
                 // //clear before append
-                $('#fiveday').empty();
+            
                 //CREATE THE FORECAST CARDS
                 // $('#cardssection').append(`<div id="card" class="card"></div>`);
-                $('#fiveday').append(`<div id="forecastcard" class="col-sm-8 forecastcard"></div>`);
-                $('#forecastcard').append(`<p class ="date">${futureDate}</p>`);
+                $('#fiveday').empty().append(`<div id="forecastcard" class="col-sm-8 forecastcard"></div>`);
+                $('#forecastcard').empty().append(`<p class ="date">${futureDate}</p>`);
                 $('#forecastcard').append(`<img src="${iconURLfuture}"></img>`);
                 //FORECAST
-                $('#forecastcard').append(`<p class="temperature">Temperature: ${futureTemperature}\u00B0F</p>`);
-                $('#forecastcard').append(`<p class="wind">Wind Speed: ${futureWind} mph</p>`);
-                $('#forecastcard').append(`<p class="humidity">Humidity: ${futureHumidity}%</p>`);
+                $('#forecastcard').empty().append(`<p class="temperature">Temperature: ${futureTemperature}\u00B0F</p>`);
+                $('#forecastcard').empty().append(`<p class="wind">Wind Speed: ${futureWind} mph</p>`);
+                $('#forecastcard').empty().append(`<p class="humidity">Humidity: ${futureHumidity}%</p>`);
             }
         })
 };
@@ -76,6 +75,10 @@ function getForecast(lat, lon) {
 
 //Function to Display Current Conditions
 function displayCity() {
+
+    //CLEAR DATA BEFORE APPEND
+    $('#currentweather').empty();
+    $('#fiveday').empty();
     //Current Date day.js
     let today = dayjs().format('dddd, MM/DD/YYYY')
     //City Name
@@ -83,11 +86,10 @@ function displayCity() {
     console.log(city)
     geoLocation(city)
 
-    //clear before append
-    $('#dateandcity').empty();
+    //div cleared before appended
     //$('#cityweather').addClass('currentdate');
-    $('#dateandcity').append(`<h2 class="currentdate">${today}</h2>`);
-    $('#dateandcity').append(`<h2 class="city">${city}</h2>`);
+    $('#dateandcity').empty().append(`<h2 class="currentdate">${today}</h2>`);
+    $('#dateandcity').empty().append(`<h2 class="city">${city}</h2>`);
 
 
     //That city is listed individually in the "citiesfromstorage" div
