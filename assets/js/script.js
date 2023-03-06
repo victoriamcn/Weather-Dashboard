@@ -45,31 +45,28 @@ function getForecast(lat, lon) {
             $('#currentlist').append(`<li class="list-group-item wind">Wind Speed: ${wind}mph</li>`);
             $('#currentlist').append(`<li class="list-group-item humidity">Humidity: ${humidity}%</li>`);
 
+            // NEXT FIVE DAYS
             for (let i = 0; i < 5; i++) {
-                if (response.list[i].dt_txt.split(' ')[1] === '12:00:00') {
-                    //DATE
-                    let futureDate = dayjs().add(i, 'day').format('dddd, MM/DD/YYYY');
-                    let iconcodefuture = response.list[i].weather.icon;
-                    let iconURLfuture = 'http://openweathermap.org/img/wn/' + iconcodefuture + '.png';
-                    let futureTemperature = response.list[i].main.temp;
-                    let futureWind = response.list[i].wind.speed;
-                    let futureHumidity = response.list[i].main.humidity;
+                // if (response.list[i].dt_txt.split(' ')[1] === '12:00:00') { }
+                let futureDate = dayjs().add(i, 'day').format('dddd, MM/DD/YYYY');
+                let iconcodefuture = response.list[i * 8].weather[0].icon;
+                let iconURLfuture = 'http://openweathermap.org/img/wn/' + iconcodefuture + '.png';
+                let futureTemperature = response.list[i * 8].main.temp;
+                let futureWind = response.list[i * 8].wind.speed;
+                let futureHumidity = response.list[i * 8].main.humidity;
 
-                    // //clear before append
-                    // $('#cardssection').empty();
+                // //clear before append
+                // $('#cardssection').empty();
 
-                    //CREATE THE FORECAST CARDS
-                    $('#cardssection').append(`<div id="card" class="card"></div>`);
-                    $('#card').append(`<div id="card-body" class="card-body"></div>`);
-                    $('.card').append(`<h4>${futureDate}</h4>`);
-                    $('.card').append(`<img src="${iconURLfuture}"></img>`);
-                    //CREATE UL for the Forecast
-                    $('#card-body').append(`<ul class="list-group list-group-flush futurelist"></ul>`);
-                    //FORECAST
-                    $('.futurelist').append(`<li class="list-group-item temperature">Temperature: ${futureTemperature}\u00B0F</li>`);
-                    $('.futurelist').append(`<li class="list-group-item wind">Wind Speed: ${futureWind} mph</li>`);
-                    $('.futurelist').append(`<li class="list-group-item humidity">Humidity: ${futureHumidity}%</li>`);
-                }
+                //CREATE THE FORECAST CARDS
+                // $('#cardssection').append(`<div id="card" class="card"></div>`);
+                $('#cardssection').append(`<div id="forecastcard" class="forecastcard"></div>`);
+                $('#forecastcard').append(`<p class ="date">${futureDate}</p>`);
+                $('#forecastcard').append(`<img src="${iconURLfuture}"></img>`);
+                //FORECAST
+                $('#forecastcard').append(`<p class="temperature">Temperature: ${futureTemperature}\u00B0F</p>`);
+                $('#forecastcard').append(`<p class="wind">Wind Speed: ${futureWind} mph</p>`);
+                $('#forecastcard').append(`<p class="humidity">Humidity: ${futureHumidity}%</p>`);
             }
         })
 };
