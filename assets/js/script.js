@@ -44,18 +44,16 @@ function getForecast(lat, lon) {
             $('#currentlist').append(`<li class="list-group-item temperature">Temperature: ${temperature}\u00B0F</li>`);
             $('#currentlist').append(`<li class="list-group-item wind">Wind Speed: ${wind}mph</li>`);
             $('#currentlist').append(`<li class="list-group-item humidity">Humidity: ${humidity}%</li>`);
-        })
-        .then(function (data) {
-            console.log('DATA of Five Day Forecast: ', data)
+
             for (let i = 0; i < 5; i++) {
-                if ([i].dt_txt.split(' ')[1] === '12:00:00') {
+                if (response.list[i].dt_txt.split(' ')[i] === '12:00:00') {
                     //DATE
                     let futureDate = dayjs().add(i, 'day').format('dddd, MM/DD/YYYY');
-                    let iconcodefuture = data.list[i].weather.icon;
+                    let iconcodefuture = response.list[i].weather.icon;
                     let iconURLfuture = 'http://openweathermap.org/img/wn/' + iconcodefuture + '.png';
-                    let futureTemperature = data.list[i].main.temp;
-                    let futureWind = data.list[i].wind.speed;
-                    let futureHumidity = data.list[i].main.humidity;
+                    let futureTemperature = response.list[i].main.temp;
+                    let futureWind = response.list[i].wind.speed;
+                    let futureHumidity = response.list[i].main.humidity;
 
                     // //clear before append
                     // $('#cardssection').empty();
