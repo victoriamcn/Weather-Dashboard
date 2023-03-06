@@ -37,7 +37,8 @@ function getForecast(lat, lon) {
             let temperature = response.list[0].main.temp;
             let wind = response.list[0].wind.speed;
             let humidity = response.list[0].main.humidity;
-
+            //CLEAR DATA BEFORE APPEND
+            $('#currentweather').empty();
             //APPEND ELEMENTS WITH DATA
             $('#currentstats').append(`<img class="icon" src="${iconURL}"></img>`);
             $('#currentstats').append(`<ul id="currentlist" class="list-group list-group-flush currentlist"></ul>`);
@@ -57,8 +58,7 @@ function getForecast(lat, lon) {
                 let futureHumidity = response.list[i * 5].main.humidity;
 
                 // //clear before append
-                // $('#fiveday').empty();
-                // .forEach
+                $('#fiveday').empty();
                 //CREATE THE FORECAST CARDS
                 // $('#cardssection').append(`<div id="card" class="card"></div>`);
                 $('#fiveday').append(`<div id="forecastcard" class="col-sm-8 forecastcard"></div>`);
@@ -107,9 +107,8 @@ function displayCity() {
         localStorage.setItem('searchedCity', JSON.stringify(storedData));
 
         for (let i = 0; i < storedData.length; i++) {
-            containerEl.append(`<button type="button" id="historybtn" class="col historybtn">${storedData[i]}</button>`);
+            containerEl.append(`<button type="button" class="col historybtn">${storedData[i]}</button>`);
         }
-
     }
 
     createSearchHistory();
@@ -119,24 +118,8 @@ function displayCity() {
 $('#searchbtn').on('click', displayCity);
 
 
-//Check data in localStorage for any cities
-function checkLocalStorage() {
-    let storedCity = JSON.parse(localStorage.getItem('searchedArray'));
-    console.log(storedCity)
-    // if (storedCity != null) {
-    //     for (let i = 0; i < storedCity.length; i++) {
-    //         $('#citiesfromstorage').append(`<button type="button" id="historybtn" class="col historybtn">${storedCityObj[i]}</button>`);
-    //         // Click search history list and then display
-    //         $('#historybtn').on('click', function () {
-    //             let clickedCity = $(this).val();
-    //             displayCity(clickedCity);
-    //         });
-    //     }
-    // } else {
-    //     storedCity = []
-    // }
-}
-
-$('window').on('load', checkLocalStorage)
-
-
+//Check data in localStorage for the city when the button is clicked
+ $('.historybtn').on('click', function () {
+    let clickedHistoryBtn = $('historybtn').val();
+    displayCity(clickedHistoryBtn)
+ })

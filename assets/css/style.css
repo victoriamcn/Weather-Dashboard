@@ -35,6 +35,10 @@ li {
 
 /* BUTTONS */
 
+button {
+    margin: 5px;
+}
+
 button.search {
     background-color: var(--submitbtn);
 }
