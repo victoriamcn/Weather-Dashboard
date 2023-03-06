@@ -55,7 +55,7 @@ function getForecast(lat, lon) {
                 let futureTemperature = response.list[i * 5].main.temp;
                 let futureWind = response.list[i * 5].wind.speed;
                 let futureHumidity = response.list[i * 5].main.humidity;
-                
+
                 // //clear before append
                 // $('#fiveday').empty();
                 // .forEach
@@ -89,66 +89,59 @@ function displayCity() {
     $('#dateandcity').append(`<h2 class="currentdate">${today}</h2>`);
     $('#dateandcity').append(`<h2 class="city">${city}</h2>`);
 
-    function setLocalStorage() {
-        //Set City to localStorage
-        let searchedCity = JSON.parse(localStorage.getItem('seachedArray')) || [];
-        if (searchedCity.includes(city)) {
-            return;
-        } else {
-            searchedCity.push(city)
-        }
-        localStorage.setItem('searchedCity', JSON.stringify(searchedCity));
-    }
 
     //That city is listed individually in the "citiesfromstorage" div
-    function createSearchHistoryList() {
-        // Get search
+    function createSearchHistory() {
+        let searchedCity = $('.form-control').val().trim();
+        //Container for the search history
+        let containerEl = $('#citiesfromstorage');
+
+        //Set City to localStorage
         let storedData = JSON.parse(localStorage.getItem('searchedArray'));
-        //create button with the City
-        $('#citiesfromstorage').append(`<ul class="futureul"></ul>`);
-        let listEl = $('.futureul').append(`<li class="1"></li>`);
         if (storedData === null) {
             storedData = []
         }
+        if (!storedData.includes(searchedCity)) {
+            storedData.push(searchedCity)
+        }
+        localStorage.setItem('searchedCity', JSON.stringify(storedData));
 
         for (let i = 0; i < storedData.length; i++) {
-            listEl.append(`<button class="btn historybtn">${storedData[i]}</button>`);
-            $('.historybtn').attr('id', 'historybtn')
+            containerEl.append(`<button type="button" id="historybtn" class="col historybtn">${storedData[i]}</button>`);
         }
+
     }
 
-    setLocalStorage();
-    createSearchHistoryList();
+    createSearchHistory();
 };
 
 //Type a city name then click search
 $('#searchbtn').on('click', displayCity);
 
 
-    // //Check data in localStorage for any cities
-    // function checkLocalStorage() {
-    //     let storedCity = JSON.parse(localStorage.getItem('searchedArray'));
-    //     if (storedCity === null) {
-    //         console.log("No saved data here.");
-    //         storedCity = []
-    //     }
+//Check data in localStorage for any cities
+function checkLocalStorage() {
+    let storedCity = JSON.parse(localStorage.getItem('searchedArray'));
+    if (storedCity === null) {
+        console.log("No saved data here.");
+        storedCity = []
+    }
 
-    //     //create button with the City
-    //     $('#citiesfromstorage').append(`<ul class="futureul"></ul>`);
-    //     let listEl = $('.futureul').append(`<li class="1"></li>`);
-    //     if (storedCity === null) {
-    //         storedCity = []
-    //     }
-    //     for (let i = 0; i < storedCity.length; i++) {
-    //         listEl.append(`<button class="historybtn">${storedCity[i]}</button>`);
-    //         $('.historybtn').attr('id', 'historybtn');
-    //         // Click search history list and then display
-    //         $('#historybtn').on('click', function () {
-    //             let clickedCity = $(this).val();
-    //             displayCity(clickedCity);
-    //         });
-    //     }
+    //create button with the City
+    $('#citiesfromstorage').append(`<ul class="futureul"></ul>`);
+    let listEl = $('.futureul').append(`<li class="1"></li>`);
+    if (storedCity === null) {
+        storedCity = []
+    }
+    for (let i = 0; i < storedCity.length; i++) {
+        listEl.append(`<button type="button" id="historybtn" class="historybtn">${storedCity[i]}</button>`);
+        // Click search history list and then display
+        $('#historybtn').on('click', function () {
+            let clickedCity = $(this).val();
+            displayCity(clickedCity);
+        });
+    }
 
-    // }
+}
 
 
