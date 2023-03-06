@@ -54,13 +54,13 @@ function getForecast(lat, lon) {
                 let futureTemperature = response.list[i * 8].main.temp;
                 let futureWind = response.list[i * 8].wind.speed;
                 let futureHumidity = response.list[i * 8].main.humidity;
-
+                
                 // //clear before append
-                // $('#cardssection').empty();
-
+                // $('#fiveday').empty();
+                .forEach
                 //CREATE THE FORECAST CARDS
                 // $('#cardssection').append(`<div id="card" class="card"></div>`);
-                $('#cardssection').append(`<div id="forecastcard" class="forecastcard"></div>`);
+                $('#fiveday').append(`<div id="forecastcard" class="col-sm-8 forecastcard"></div>`);
                 $('#forecastcard').append(`<p class ="date">${futureDate}</p>`);
                 $('#forecastcard').append(`<img src="${iconURLfuture}"></img>`);
                 //FORECAST
