@@ -29,14 +29,14 @@ function getForecast(lat, lon) {
             // console.log(response)
             return response.json()
         })
-        .then(function (response) {
-            console.log("DATA of forecast: ", response)
+        .then(function (data) {
+            console.log("DATA of forecast: ", data)
 
-            let iconcode = response.list[0].weather[0].icon;
+            let iconcode = data.list[0].weather[0].icon;
             let iconURL = 'http://openweathermap.org/img/wn/' + iconcode + '@2x.png';
-            let temperature = response.list[0].main.temp;
-            let wind = response.list[0].wind.speed;
-            let humidity = response.list[0].main.humidity;
+            let temperature = data.list[0].main.temp;
+            let wind = data.list[0].wind.speed;
+            let humidity = data.list[0].main.humidity;
 
             //APPEND ELEMENTS WITH DATA
             $('#currentstats').append(`<img class="icon" src="${iconURL}"></img>`);
@@ -50,30 +50,30 @@ function getForecast(lat, lon) {
                 // if (response.list[i].dt_txt.split(' ')[1] === '12:00:00') { }
                 let futureDate = dayjs().add(i, 'day').format('MM/DD');
                 console.log(futureDate);
-                let iconcodefuture = response.list[i * 8].weather[0].icon;
+                let iconcodefuture = data.list[i * 8].weather[0].icon;
                 let iconURLfuture = 'http://openweathermap.org/img/wn/' + iconcodefuture + '.png';
-                let futureTemperature = response.list[i * 8].main.temp;
-                let futureWind = response.list[i * 8].wind.speed;
-                let futureHumidity = response.list[i * 8].main.humidity;
+                let futureTemperature = data.list[i * 8].main.temp;
+                let futureWind = data.list[i * 8].wind.speed;
+                let futureHumidity = data.list[i * 8].main.humidity;
 
                 //dt_text format = YYYY-MM-DD HH:mm:ss
-                let fiveDayDate = response.list[i * 8].dt_txt.slice(5 , -9);
+                let fiveDayDate = data.list[i * 8].dt_txt.slice(5 , -9);
                 console.log('Five Day Date: ', fiveDayDate);
 
                 //CREATE THE FORECAST CARDS for each Date
                 $('#cardssection').append(`<div id="fiveday" class="row d-flex justify-content-around w-100 p-3"></div>`);
                 $('#fiveday').append(`<h5 class ="col-md-2 border futuredate">${futureDate}</h5>`);
 
-                $('.futuredate').each(function (futureDate) {
+                //$('.futuredate').each(function (futureDate) {
                     // $('.futuredate').append(`<div id="forecastcard" class="forecastcard"></div>`);
-                    if (futureDate == fiveDayDate) {
+                    //if (futureDate == fiveDayDate) {
                         // ICON
-                        $('.futuredate').append(`<img src="${iconURLfuture}"></img>`);
+                       // $('.futuredate').append(`<img src="${iconURLfuture}"></img>`);
                         //FORECAST
-                        $('.futuredate').append(`<p class="temperature">Temperature: ${futureTemperature}\u00B0F</p>`);
-                        $('.futuredate').append(`<p class="wind">Wind Speed: ${futureWind} mph</p>`);
-                        $('.futuredate').append(`<p class="humidity">Humidity: ${futureHumidity}%</p>`);
-                    }
+                       // $('.futuredate').append(`<p class="temperature">Temperature: ${futureTemperature}\u00B0F</p>`);
+                      //  $('.futuredate').append(`<p class="wind">Wind Speed: ${futureWind} mph</p>`);
+                      //  $('.futuredate').append(`<p class="humidity">Humidity: ${futureHumidity}%</p>`);
+                   // }
                 })
             }
         })
