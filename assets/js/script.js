@@ -33,7 +33,7 @@ function getForecast(lat, lon) {
             console.log("DATA of forecast: ", response)
 
             let iconcode = response.list[0].weather[0].icon;
-            let iconURL = 'http://openweathermap.org/img/wn/' + iconcode + '.png';
+            let iconURL = 'http://openweathermap.org/img/wn/' + iconcode + '@2x.png';
             let temperature = response.list[0].main.temp;
             let wind = response.list[0].wind.speed;
             let humidity = response.list[0].main.humidity;
@@ -98,8 +98,8 @@ function displayCity() {
     //div cleared before appended
     // $('#dateandcity').empty();
     //$('#cityweather').addClass('currentdate');
-    $('#dateandcity').append(`<h2 class="currentdate">${today}</h2>`);
-    $('#dateandcity').append(`<h2 class="city">${city}</h2>`);
+    $('#dateandcity').append(`<h2 class="currentdate"> ${today} in ${city}</h2>`);
+    // $('#dateandcity').append(`<h2 class="city">${city}</h2>`);
 
 
     //That city is listed individually in the "citiesfromstorage" div
