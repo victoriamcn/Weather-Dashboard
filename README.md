@@ -31,9 +31,9 @@ OpenWeatherMap
 - Geocoding API: [https://openweathermap.org/api/geocoding-api](https://openweathermap.org/api/geocoding-api)
 
 **Third-Party APIs**
-jQuery: [https://releases.jquery.com/](https://releases.jquery.com/)
-day.js: [https://day.js.org/docs/en/installation/browser](https://day.js.org/docs/en/installation/browser)
-Bootstrap: [https://getbootstrap.com/docs/5.1/getting-started/introduction/](https://getbootstrap.com/docs/5.1/getting-started/introduction/)
+- jQuery: [https://releases.jquery.com/](https://releases.jquery.com/)
+- day.js: [https://day.js.org/docs/en/installation/browser](https://day.js.org/docs/en/installation/browser)
+- Bootstrap: [https://getbootstrap.com/docs/5.1/getting-started/introduction/](https://getbootstrap.com/docs/5.1/getting-started/introduction/)
 
 ## User Story
 
