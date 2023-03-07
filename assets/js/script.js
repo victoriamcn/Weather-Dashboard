@@ -46,9 +46,9 @@ function getForecast(lat, lon) {
             $('#currentlist').append(`<li class="list-group-item humidity">Humidity: ${humidity}%</li>`);
 
             // NEXT FIVE DAYS
-            for (let i = 1; i < 8; i++) {
+            for (let i = 0; i < 8; i++) {
                 // if (response.list[i].dt_txt.split(' ')[1] === '12:00:00') { }
-                let futureDate = dayjs().add(i, 'day').format('MM/DD');
+                let futureDate = dayjs().add(i, 'day').format('MM-DD');
                 console.log(futureDate);
                 let iconcodefuture = response.list[i * 8].weather[0].icon;
                 let iconURLfuture = 'http://openweathermap.org/img/wn/' + iconcodefuture + '.png';
@@ -62,18 +62,18 @@ function getForecast(lat, lon) {
 
                 //CREATE THE FORECAST CARDS for each Date
                 $('#cardssection').append(`<div id="fiveday" class="row d-flex justify-content-around w-100 p-3"></div>`);
-                $('#fiveday').append(`<h5 class ="col-md-2 border futuredate">${futureDate}</h5>`);
+                $('#fiveday').append(`<div class="col-md-2 border futuredate"><h5 class ="date">${futureDate}</h5></div>`);
 
-                $('.futuredate').each(function (futureDate) {
+                $('.futuredate').each(function () {
                     // $('.futuredate').append(`<div id="forecastcard" class="forecastcard"></div>`);
-                    if (futureDate == fiveDayDate) {
+                    // if (futureDate == fiveDayDate) {}
                         // ICON
                         $('.futuredate').append(`<img src="${iconURLfuture}"></img>`);
                         //FORECAST
                         $('.futuredate').append(`<p class="temperature">Temperature: ${futureTemperature}\u00B0F</p>`);
                         $('.futuredate').append(`<p class="wind">Wind Speed: ${futureWind} mph</p>`);
                         $('.futuredate').append(`<p class="humidity">Humidity: ${futureHumidity}%</p>`);
-                    }
+                    
                 })
             }
         })
