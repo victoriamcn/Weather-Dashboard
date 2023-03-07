@@ -48,7 +48,7 @@ function getForecast(lat, lon) {
             // NEXT FIVE DAYS
             for (let i = 1; i <= 5; i++) {
                 // if (response.list[i].dt_txt.split(' ')[1] === '12:00:00') { }
-                let futureDate = dayjs().add(i, 'day').format('dddd, MM/DD/YYYY');
+                let futureDate = dayjs().add(i, 'day').format('dddd, MM-DD');
                 console.log(futureDate);
                 let iconcodefuture = response.list[i * 5].weather[0].icon;
                 let iconURLfuture = 'http://openweathermap.org/img/wn/' + iconcodefuture + '.png';
@@ -56,20 +56,18 @@ function getForecast(lat, lon) {
                 let futureWind = response.list[i * 5].wind.speed;
                 let futureHumidity = response.list[i * 5].main.humidity;
 
-                // each set of data needs to be it's own card
+                //dt_text format = YYYY-MM-DD HH:mm:ss
+                let fiveDayDate = response.list[i * 5].dt_txt.slice(5 , -9);
+                console.log('Five Day Date: ', fiveDayDate);
 
-                //CREATE THE FORECAST CARDS
-                // $('#cardssection').append(`<div id="card" class="card"></div>`);
+                //CREATE THE FORECAST CARDS for each Date
                 $('#cardssection').append(`<div id="fiveday" class="row "></div>`);
-                //ICON
-                $('#fiveday').append(`<p class ="col-md-2 border futuredate">${futureDate}</p>`);
+                $('#fiveday').append(`<p class ="col-md-3 border futuredate">${futureDate}</p>`);
 
                 $('.futuredate').each(function (futureDate) {
 
                     // $('.futuredate').append(`<div id="forecastcard" class="forecastcard"></div>`);
-                    if (!futureDate) {
-                        console.log('Nope. Not the right date.')
-                    } else {
+                    if (futureDate == fiveDayDate) {
                         // ICON
                         $('.futuredate').append(`<img src="${iconURLfuture}"></img>`);
                         //FORECAST
@@ -92,7 +90,7 @@ function displayCity() {
     $('#currentstats').empty();
     $('#fiveday').empty();
     //Current Date day.js
-    let today = dayjs().format('dddd, MM/DD/YYYY')
+    let today = dayjs().format('dddd, MM-DD-YYYY')
     //City Name
     let city = $('.form-control').val().trim();
     console.log(city)
