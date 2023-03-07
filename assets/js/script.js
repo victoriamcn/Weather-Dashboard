@@ -79,8 +79,9 @@ function getForecast(lat, lon) {
 function displayCity() {
 
     //CLEAR DATA BEFORE APPEND
-    // $('#currentweather').empty();
-    // $('#fiveday').empty();
+    $('#dateandcity').empty();
+     $('#currentstats').empty();
+     $('#fiveday').empty();
     //Current Date day.js
     let today = dayjs().format('dddd, MM/DD/YYYY')
     //City Name
@@ -115,7 +116,6 @@ function displayCity() {
             containerEl.append(`<button type="button" class="col historybtn">${storedData[i]}</button>`);
         }
     }
-
     createSearchHistory();
 };
 
