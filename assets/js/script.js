@@ -64,16 +64,16 @@ function getForecast(lat, lon) {
                 $('#cardssection').append(`<div id="fiveday" class="row d-flex justify-content-around w-100 p-3"></div>`);
                 $('#fiveday').append(`<h5 class ="col-md-2 border futuredate">${futureDate}</h5>`);
 
-                //$('.futuredate').each(function (futureDate) {
-                    // $('.futuredate').append(`<div id="forecastcard" class="forecastcard"></div>`);
-                    //if (futureDate == fiveDayDate) {
+                $('.futuredate').each(function (futureDate) {
+                    $('.futuredate').append(`<div id="forecastcard" class="forecastcard"></div>`);
+                    if (futureDate == fiveDayDate) {
                         // ICON
-                       // $('.futuredate').append(`<img src="${iconURLfuture}"></img>`);
+                       $('.futuredate').append(`<img src="${iconURLfuture}"></img>`);
                         //FORECAST
-                       // $('.futuredate').append(`<p class="temperature">Temperature: ${futureTemperature}\u00B0F</p>`);
-                      //  $('.futuredate').append(`<p class="wind">Wind Speed: ${futureWind} mph</p>`);
-                      //  $('.futuredate').append(`<p class="humidity">Humidity: ${futureHumidity}%</p>`);
-                   // }
+                       $('.futuredate').append(`<p class="temperature">Temperature: ${futureTemperature}\u00B0F</p>`);
+                       $('.futuredate').append(`<p class="wind">Wind Speed: ${futureWind} mph</p>`);
+                       $('.futuredate').append(`<p class="humidity">Humidity: ${futureHumidity}%</p>`);
+                    }
                 })
             }
         })
