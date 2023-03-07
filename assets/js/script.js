@@ -48,6 +48,7 @@ function getForecast(lat, lon) {
             // NEXT FIVE DAYS
             for (let i = 1; i <= 5; i++) {
                 // if (response.list[i].dt_txt.split(' ')[1] === '12:00:00') { }
+                // let day = [0, 8,16,24,32]
                 let futureDate = dayjs().add(i, 'day').format('dddd, MM/DD/YYYY');
                 console.log(futureDate);
                 let iconcodefuture = response.list[i * 5].weather[0].icon;
@@ -60,15 +61,21 @@ function getForecast(lat, lon) {
             
                 //CREATE THE FORECAST CARDS
                 // $('#cardssection').append(`<div id="card" class="card"></div>`);
-                $('#cardssection').append(`<div id="fiveday" class="row fiveday"></div>`);
+                $('#cardssection').append(`<div id="fiveday" class="row "></div>`);
+                //ICON
+                $('#fiveday').append(`<p class ="col-md-2 border futuredate">${futureDate}</p>`);
                 
-                $('#fiveday').append(`<div id="forecastcard" class="col-md-3 border forecastcard"></div>`);
-                $('#forecastcard').append(`<p class ="date">${futureDate}</p>`);
-                $('#forecastcard').append(`<img src="${iconURLfuture}"></img>`);
+                $('.futuredate').each(function() {
+
+                // $('.futuredate').append(`<div id="forecastcard" class="forecastcard border"></div>`);
+
+                // ICON
+                $('.futuredate').append(`<img src="${iconURLfuture}"></img>`);
                 //FORECAST
-                $('#forecastcard').append(`<p class="temperature">Temperature: ${futureTemperature}\u00B0F</p>`);
-                $('#forecastcard').append(`<p class="wind">Wind Speed: ${futureWind} mph</p>`);
-                $('#forecastcard').append(`<p class="humidity">Humidity: ${futureHumidity}%</p>`);
+                $('.futuredate').append(`<p class="temperature">Temperature: ${futureTemperature}\u00B0F</p>`);
+                $('.futuredate').append(`<p class="wind">Wind Speed: ${futureWind} mph</p>`);
+                $('.futuredate').append(`<p class="humidity">Humidity: ${futureHumidity}%</p>`);
+                })
             }
         })
 };
