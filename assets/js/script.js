@@ -4,7 +4,7 @@ let apiKey = '173d4962b14a682100b481e4cceca14d';
 //BEGIN WORKING CODE
 // fetching the lat/lon 
 function geoLocation(nameofcity) {
-    var apiCityURL = `http://api.openweathermap.org/geo/1.0/direct?q=${nameofcity}&limit=1&appid=${apiKey}`
+    var apiCityURL = `https://api.openweathermap.org/geo/1.0/direct?q=${nameofcity}&limit=1&appid=${apiKey}`
     fetch(apiCityURL)
         .then(function (response) {
             // if (!response.ok) {
@@ -23,7 +23,7 @@ function geoLocation(nameofcity) {
 
 // fetching the forecast for the lat/lon 
 function getForecast(lat, lon) {
-    var apiForecastURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`;
+    var apiForecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`;
     fetch(apiForecastURL)
         .then(function (response) {
             // console.log(response)
