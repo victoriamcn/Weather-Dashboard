@@ -37,7 +37,7 @@ function getForecast(lat, lon) {
             let temperature = response.list[0].main.temp;
             let wind = response.list[0].wind.speed;
             let humidity = response.list[0].main.humidity;
-            
+
             //APPEND ELEMENTS WITH DATA
             $('#currentstats').append(`<img class="icon" src="${iconURL}"></img>`);
             $('#currentstats').append(`<ul id="currentlist" class="list-group list-group-flush currentlist"></ul>`);
@@ -46,37 +46,39 @@ function getForecast(lat, lon) {
             $('#currentlist').append(`<li class="list-group-item humidity">Humidity: ${humidity}%</li>`);
 
             // NEXT FIVE DAYS
-            for (let i = 1; i <= 5; i++) {
-                // if (response.list[i].dt_txt.split(' ')[1] === '12:00:00') { }
-                // let day = [0, 8,16,24,32]
-                let futureDate = dayjs().add(i, 'day').format('dddd, MM/DD/YYYY');
-                console.log(futureDate);
-                let iconcodefuture = response.list[i * 5].weather[0].icon;
+            // for (let i = 1; i <= 5; i++) {}
+            // if (response.list[i].dt_txt.split(' ')[1] === '12:00:00') { }
+            let day = [0, 8, 16, 24, 32]
+            // let futureDate = dayjs().add(i, 'day').format('dddd, MM/DD/YYYY');
+            // console.log(futureDate);
+
+            // each set of data needs to be it's own card
+
+            //CREATE THE FORECAST CARDS
+            // $('#cardssection').append(`<div id="card" class="card"></div>`);
+            $('#cardssection').append(`<div id="fiveday" class="row "></div>`);
+            $('#fiveday').append(`<div id="forecastcard" class="forecastcard col-md-2 border"></div>`);
+            //ICON
+
+            //for each five days
+            day.forEach(function (i) {
+                let eachForecastDay = new Date(response.list[i].dt & 1000);
+                let iconcodefuture = response.list[i].weather[0].icon;
                 let iconURLfuture = 'http://openweathermap.org/img/wn/' + iconcodefuture + '.png';
-                let futureTemperature = response.list[i * 5].main.temp;
-                let futureWind = response.list[i * 5].wind.speed;
-                let futureHumidity = response.list[i * 5].main.humidity;
+                let futureTemperature = response.list[i].main.temp;
+                let futureWind = response.list[i].wind.speed;
+                let futureHumidity = response.list[i].main.humidity;
 
-                // each set of data needs to be it's own card
-            
-                //CREATE THE FORECAST CARDS
-                // $('#cardssection').append(`<div id="card" class="card"></div>`);
-                $('#cardssection').append(`<div id="fiveday" class="row "></div>`);
-                //ICON
-                $('#fiveday').append(`<p class ="col-md-2 border futuredate">${futureDate}</p>`);
-                
-                $('.futuredate').each(function() {
-
-                // $('.futuredate').append(`<div id="forecastcard" class="forecastcard border"></div>`);
-
+                //DATE
+                $('.forecastcard').append(`<p class="date">${eachForecastDay}</p>`)
                 // ICON
-                $('.futuredate').append(`<img src="${iconURLfuture}"></img>`);
+                $('.forecastcard').append(`<img src="${iconURLfuture}"></img>`);
                 //FORECAST
-                $('.futuredate').append(`<p class="temperature">Temperature: ${futureTemperature}\u00B0F</p>`);
-                $('.futuredate').append(`<p class="wind">Wind Speed: ${futureWind} mph</p>`);
-                $('.futuredate').append(`<p class="humidity">Humidity: ${futureHumidity}%</p>`);
-                })
-            }
+                $('.forecastcard').append(`<p class="temperature">Temperature: ${futureTemperature}\u00B0F</p>`);
+                $('.forecastcard').append(`<p class="wind">Wind Speed: ${futureWind} mph</p>`);
+                $('.forecastcard').append(`<p class="humidity">Humidity: ${futureHumidity}%</p>`);
+            })
+
         })
 };
 
@@ -87,8 +89,8 @@ function displayCity() {
 
     //CLEAR DATA BEFORE APPEND
     $('#dateandcity').empty();
-     $('#currentstats').empty();
-     $('#fiveday').empty();
+    $('#currentstats').empty();
+    $('#fiveday').empty();
     //Current Date day.js
     let today = dayjs().format('dddd, MM/DD/YYYY')
     //City Name
@@ -131,7 +133,7 @@ $('#searchbtn').on('click', displayCity);
 
 
 //Check data in localStorage for the city when the button is clicked
- $('.historybtn').on('click', function () {
+$('.historybtn').on('click', function () {
     let clickedHistoryBtn = $('historybtn').val();
     displayCity(clickedHistoryBtn)
- })
+})
