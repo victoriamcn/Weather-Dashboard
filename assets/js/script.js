@@ -83,7 +83,7 @@ function getForecast(lat, lon) {
                         }
                 })
             })
-};
+});
 
 
 
