@@ -7,10 +7,9 @@ function geoLocation(nameofcity) {
     var apiCityURL = `https://api.openweathermap.org/geo/1.0/direct?q=${nameofcity}&limit=1&appid=${apiKey}`
     fetch(apiCityURL)
         .then(function (response) {
-            // if (!response.ok) {
-            //     throw new Error(`HTTP error: ${response.status}`);
-            // }
-            // console.log(response)
+            if (!response.ok) {
+             throw new Error(`HTTP error: ${response.status}`);
+             }
             return response.json()
         })
         .then(function (data) {
@@ -47,7 +46,6 @@ function getForecast(lat, lon) {
 
             // NEXT FIVE DAYS
             for (let i = 1; i < 8; i++) {
-                // if (response.list[i].dt_txt.split(' ')[1] === '12:00:00') { }
                 let futureDate = dayjs().add(i, 'day').format('MM/DD');
                 console.log(futureDate);
                 let iconcodefuture = data.list[i * 8].weather[0].icon;
@@ -57,24 +55,24 @@ function getForecast(lat, lon) {
                 let futureHumidity = data.list[i * 8].main.humidity;
 
                 //dt_text format = YYYY-MM-DD HH:mm:ss
-                let fiveDayDate = data.list[i * 8].dt_txt.slice(5 , -9);
-                console.log('Five Day Date: ', fiveDayDate);
+                //let fiveDayDate = data.list[i * 8].dt_txt.slice(5 , -9);
+                //console.log('Five Day Date: ', fiveDayDate);
 
                 //CREATE THE FORECAST CARDS for each Date
                 $('#cardssection').append(`<div id="fiveday" class="row d-flex justify-content-around w-100 p-3"></div>`);
                 $('#fiveday').append(`<h5 class ="col-md-2 border futuredate">${futureDate}</h5>`);
 
-                $('.futuredate').each(function (futureDate) {
-                    $('.futuredate').append(`<div id="forecastcard" class="forecastcard"></div>`);
-                    if (futureDate == fiveDayDate) {
+                $('.futuredate').each(function () {
+                    $(this).append(`<div id="forecastcard" class="forecastcard"></div>`);
+                    if ($(this).text() == futureDate) {
                         // ICON
-                       $('.futuredate').append(`<img src="${iconURLfuture}"></img>`);
+                        $(this).append(`<img src="${iconURLfuture}"></img>`);
                         //FORECAST
-                       $('.futuredate').append(`<p class="temperature">Temperature: ${futureTemperature}\u00B0F</p>`);
-                       $('.futuredate').append(`<p class="wind">Wind Speed: ${futureWind} mph</p>`);
-                       $('.futuredate').append(`<p class="humidity">Humidity: ${futureHumidity}%</p>`);
-                    }
-                })
+                        $(this).append(`<p class="temperature">Temperature: ${futureTemperature}\u00B0F</p>`);
+                        $(this).append(`<p class="wind">Wind Speed: ${futureWind} mph</p>`);
+                        $(this).append(`<p class="humidity">Humidity: ${futureHumidity}%</p>`);
+        }
+    })
             }
         })
 };
