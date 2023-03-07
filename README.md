@@ -21,7 +21,7 @@ I used `localStorage` to store the user's search history and display it on the l
 
 ## Deployed Application
 
-Weather Dashboard Application: []()
+Weather Dashboard Application: [https://victoriamcn.github.io/Weather-Dashboard/](https://victoriamcn.github.io/Weather-Dashboard/)
 
 ## API List
 
