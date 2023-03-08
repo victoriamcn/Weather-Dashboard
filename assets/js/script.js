@@ -139,7 +139,7 @@ function displayCity() {
         localStorage.setItem('searchedCity', JSON.stringify(storedData));
 
         for (let i = 0; i < storedData.length; i++) {
-            containerEl.append(`<div><button type="button" class="col btn btn-outline-secondary btn-sm historybtn">${storedData[i]}</button></div>`);
+            containerEl.append(`<div class="p-2"><button type="button" class="col w-100 btn btn-outline-secondary btn-sm historybtn">${storedData[i]}</button></div>`);
         }
     }
     createSearchHistory();
