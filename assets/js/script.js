@@ -53,7 +53,7 @@ function getForecast(lat, lon) {
 
             // NEXT FIVE DAYS
             for (let i = 0; i < 5; i++) {
-                let futureDate = dayjs().add(i, 'day').format('MM/DD');
+                let futureDate = dayjs().add(i, 'day').format('dddd, MM/DD');
                 console.log(futureDate);
                 let iconcodefuture = data.list[i * 8].weather[0].icon;
                 let iconURLfuture = 'http://openweathermap.org/img/wn/' + iconcodefuture + '.png';
@@ -74,20 +74,20 @@ function getForecast(lat, lon) {
 
             //CREATE THE FORECAST CARDS FROM ARRAY
             forecastData.forEach((data, index) => {
-                $('#cardssection').append(`<div id="fiveday-${index}" class="row d-flex justify-content-around w-100 p-3"></div>`);
-                $(`#fiveday-${index}`).append(`<h5 class ="col-md-2 border futuredate">${data.date}</h5>`);
+                $('#cardssection').append(`<div id="fiveday-${index}" class="col-md-3 fiveday"></div>`);
+                $(`#fiveday-${index}`).append(`<p class ="border p-3 mb-2 bg-primary-subtle text-emphasis-primary futuredate">${data.date}</p>`);
                 $(`#fiveday-${index} .futuredate`).append(`<div id="forecastcard-${index}" class="forecastcard"></div>`);
                 $(`#forecastcard-${index}`).hide();
                 $(`#forecastcard-${index}`).empty();
 
-                $(`#fiveday-${index} h5`).each(function () {
+                $(`#fiveday-${index} p`).each(function () {
                     let cardFutureDate = $(this).text();
                     if (cardFutureDate === data.date) {
                         $(`#forecastcard-${index}`).show();
-                        $(`#forecastcard-${index}`).append(`<img src="${data.icon}"></img>`);
-                        $(`#forecastcard-${index}`).append(`<p class="temperature">Temperature: ${data.temp}\u00B0F</p>`);
-                        $(`#forecastcard-${index}`).append(`<p class="wind">Wind Speed: ${data.wind} mph</p>`);
-                        $(`#forecastcard-${index}`).append(`<p class="humidity">Humidity: ${data.humidity}%</p>`);
+                        $(`#forecastcard-${index}`).append(`<img src="${data.icon}" class="weather"></img>`);
+                        $(`#forecastcard-${index}`).append(`<p class="weather temperature">Temperature: ${data.temp}\u00B0F</p>`);
+                        $(`#forecastcard-${index}`).append(`<p class="weather wind">Wind Speed: ${data.wind} mph</p>`);
+                        $(`#forecastcard-${index}`).append(`<p class="weather humidity">Humidity: ${data.humidity}%</p>`);
                     }
                 })
             });
@@ -103,7 +103,10 @@ function displayCity() {
     //CLEAR DATA BEFORE APPEND
     $('#dateandcity').empty();
     $('#currentstats').empty();
-    $('#fiveday').empty();
+    //EMPTY FORECAST ELEMENTS
+    $(`.fiveday`).empty();
+    $(`.futuredate`).empty();
+    $(`.forecastcard`).empty();
     //Current Date day.js
     let today = dayjs().format('dddd, MM/DD/YYYY')
     //City Name
@@ -114,6 +117,7 @@ function displayCity() {
     //div cleared before appended
     // $('#dateandcity').empty();
     //$('#cityweather').addClass('currentdate');
+    $('#currentweather').addClass('border')
     $('#dateandcity').append(`<h2 class="currentdate"> ${today} in ${city}</h2>`);
     // $('#dateandcity').append(`<h2 class="city">${city}</h2>`);
 
@@ -135,18 +139,19 @@ function displayCity() {
         localStorage.setItem('searchedCity', JSON.stringify(storedData));
 
         for (let i = 0; i < storedData.length; i++) {
-            containerEl.append(`<button type="button" class="col historybtn">${storedData[i]}</button>`);
+            containerEl.append(`<div><button type="button" class="col btn btn-outline-secondary btn-sm historybtn">${storedData[i]}</button></div>`);
         }
     }
     createSearchHistory();
+    //Check data in localStorage for the city when the button is clicked
+    $('.historybtn').on('click', function () {
+        let clickedHistoryBtn = $(this).text().val();
+        displayCity(clickedHistoryBtn)
+    })
+
 };
 
 //Type a city name then click search
 $('#searchbtn').on('click', displayCity);
 
 
-//Check data in localStorage for the city when the button is clicked
-$('.historybtn').on('click', function () {
-    let clickedHistoryBtn = $(this).text().val();
-    displayCity(clickedHistoryBtn)
-})

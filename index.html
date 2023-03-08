@@ -13,7 +13,7 @@
 
 <body>
     <!--HEADER-->
-    <header>
+    <header class="text-bg-primary p-3">
         <div class="container-fluid"></div>
         <div class="row text-right">
             <h1>Weather Dashboard</h1>
@@ -22,26 +22,29 @@
     </header>
 
     <!--MAIN CONTENT-->
-    <main>
+    <main class="text-sm-light p-3 ">
         <div class="container-fluid text-center">
             <!--FIRST ROW-->
             <div class="first row">
-                <!--SEARCH CITY-->
-                <div class="col-sm-4 leftside">
+                <!--SEARCH CITY ON LEFT SIDE-->
+                <div class="col-sm-4 p-3 mb-2 bg-warning-subtle text-emphasis-warning border border-warning ">
                     <div id="searcharea" class="input-group-sm mb-3">
                         <span id="inputGroup-sizing-sm" class="input-group-text">Search for a city below:</span>
                         <input type="text" id="search" class="form-control" aria-label="With textarea"
                             aria-describedby="inputGroup-sizing-sm" placeholder="Reno, Chicago, Fargo..." />
-                        <button id="searchbtn" type="button" class=" search">Search</button>
+                    </div>
+                    <div>
+                        <button id="searchbtn" type="button"
+                            class="btn btn-info btn-outline-light search">Search</button>
                     </div>
                     <div class="row">
-                        <!--LIST OF SEARCHED CITY(S)-->
-                        <div id="citiesfromstorage" class="col-sm-4 citiesfromstorage leftside">
+                        <!--LIST OF SEARCHED CITY(S) ON LEFT SIDE-->
+                        <div id="citiesfromstorage" class="col-sm-4 w-100 d-flex flex-column mb-3 citiesfromstorage">
                         </div>
                     </div>
                 </div>
-                <!--DISPLAY CITY AND TODAY'S DATE-->
-                <div id="currentweather" class="col-8 border">
+                <!--DISPLAY CITY AND TODAY'S DATE ON RIGHT SIDE-->
+                <div id="currentweather" class="col-8">
                     <div id="dateandcity" class="dateandcity">
                     </div>
                     <div id="currentstats" class="col currentstats">
@@ -56,9 +59,9 @@
             </div>
             <!--SECOND ROW-->
             <div class="second row">
-                <!--DISPLAY FIVE DAY FORECAST-->
-                <div id="cardssection" class="col cardssection">
-                    
+                <!--DISPLAY FIVE DAY FORECAST  ON RIGHT SIDE-->
+                <div id="cardssection" class="row d-flex justify-content-around w-100 p-3 cardssection">
+
                 </div>
             </div>
         </div>
