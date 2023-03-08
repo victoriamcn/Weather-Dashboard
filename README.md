@@ -2,11 +2,7 @@
 
 ## Description
 
-A simple weather application that runs in the browser.
-
-THe weather dashboard used the [5 Day Weather Forecast](https://openweathermap.org/forecast5) to retrieve weather data for cities. Using the 5 Day Weather Forecast API, I needed to pass in coordinates instead of just a city name.
-
-I used `localStorage` to store the user's search history and display it on the left side of the window to the user could search that city again.
+A simple weather application that runs in the browser. It utilizes the [5 Day Weather Forecast](https://openweathermap.org/forecast5) API to retrieve weather data for cities. 
 
 ## Table of Contents
 - [Preview](#preview)
