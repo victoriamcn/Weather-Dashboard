@@ -32,17 +32,17 @@ function getForecast(lat, lon) {
             console.log("DATA of forecast: ", data)
 
             let iconcode = data.list[0].weather[0].icon;
-            let iconURL = 'http://openweathermap.org/img/wn/' + iconcode + '@2x.png';
+            let iconURL = 'http://openweathermap.org/img/wn/' + iconcode + '.png';
             let temperature = data.list[0].main.temp;
             let wind = data.list[0].wind.speed;
             let humidity = data.list[0].main.humidity;
 
             //APPEND ELEMENTS WITH DATA
-            $('#currentstats').append(`<img class="icon" src="${iconURL}"></img>`);
+            $('#dateandcity').append(`<img class="icon" src="${iconURL}"></img>`);
             $('#currentstats').append(`<ul id="currentlist" class="list-group list-group-flush currentlist"></ul>`);
-            $('#currentlist').append(`<li class="list-group-item temperature">Temperature: ${temperature}\u00B0F</li>`);
-            $('#currentlist').append(`<li class="list-group-item wind">Wind Speed: ${wind}mph</li>`);
-            $('#currentlist').append(`<li class="list-group-item humidity">Humidity: ${humidity}%</li>`);
+            $('#currentlist').append(`<li class="fw-semibold list-group-item temperature">Temperature: ${temperature}\u00B0F</li>`);
+            $('#currentlist').append(`<li class="fw-semibold list-group-item wind">Wind Speed: ${wind}mph</li>`);
+            $('#currentlist').append(`<li class="fw-semibold list-group-item humidity">Humidity: ${humidity}%</li>`);
 
             //dt_text format = YYYY-MM-DD HH:mm:ss
             // let fiveDayDate = response.list[i * 8].dt_txt.slice(5 , -9);
@@ -74,8 +74,8 @@ function getForecast(lat, lon) {
 
             //CREATE THE FORECAST CARDS FROM ARRAY
             forecastData.forEach((data, index) => {
-                $('#cardssection').append(`<div id="fiveday-${index}" class="col-md-3 fiveday"></div>`);
-                $(`#fiveday-${index}`).append(`<p class ="border p-3 mb-2 bg-primary-subtle text-emphasis-primary futuredate">${data.date}</p>`);
+                $('#cardssection').append(`<div id="fiveday-${index}" class="col-md-2 fiveday"></div>`);
+                $(`#fiveday-${index}`).append(`<p class ="border fw-bold fs-5 p-1 bg-primary-subtle text-emphasis-primary futuredate">${data.date}</p>`);
                 $(`#fiveday-${index} .futuredate`).append(`<div id="forecastcard-${index}" class="forecastcard"></div>`);
                 $(`#forecastcard-${index}`).hide();
                 $(`#forecastcard-${index}`).empty();
@@ -85,9 +85,9 @@ function getForecast(lat, lon) {
                     if (cardFutureDate === data.date) {
                         $(`#forecastcard-${index}`).show();
                         $(`#forecastcard-${index}`).append(`<img src="${data.icon}" class="weather"></img>`);
-                        $(`#forecastcard-${index}`).append(`<p class="weather temperature">Temperature: ${data.temp}\u00B0F</p>`);
-                        $(`#forecastcard-${index}`).append(`<p class="weather wind">Wind Speed: ${data.wind} mph</p>`);
-                        $(`#forecastcard-${index}`).append(`<p class="weather humidity">Humidity: ${data.humidity}%</p>`);
+                        $(`#forecastcard-${index}`).append(`<p class="fw-semibold fs-6 weather temperature">Temperature: ${data.temp}\u00B0F</p>`);
+                        $(`#forecastcard-${index}`).append(`<p class="fw-semibold fs-6 weather wind">Wind Speed: ${data.wind} mph</p>`);
+                        $(`#forecastcard-${index}`).append(`<p class="fw-semibold fs-6 weather humidity">Humidity: ${data.humidity}%</p>`);
                     }
                 })
             });
@@ -117,7 +117,7 @@ function displayCity() {
     //div cleared before appended
     // $('#dateandcity').empty();
     //$('#cityweather').addClass('currentdate');
-    $('#currentweather').addClass('border')
+    // $('#currentweather').addClass('border')
     $('#dateandcity').append(`<h2 class="currentdate"> ${today} in ${city}</h2>`);
     // $('#dateandcity').append(`<h2 class="city">${city}</h2>`);
 
