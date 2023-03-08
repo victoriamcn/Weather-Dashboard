@@ -44,8 +44,15 @@ function getForecast(lat, lon) {
             $('#currentlist').append(`<li class="list-group-item wind">Wind Speed: ${wind}mph</li>`);
             $('#currentlist').append(`<li class="list-group-item humidity">Humidity: ${humidity}%</li>`);
 
+            //dt_text format = YYYY-MM-DD HH:mm:ss
+            // let fiveDayDate = response.list[i * 8].dt_txt.slice(5 , -9);
+            // console.log('Five Day Date: ', fiveDayDate);
+
+            // ARRAY TO STORE FUTURE DATES AND FORECAST DATA
+            let forecastData = [];
+
             // NEXT FIVE DAYS
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 5; i++) {
                 let futureDate = dayjs().add(i, 'day').format('MM/DD');
                 console.log(futureDate);
                 let iconcodefuture = data.list[i * 8].weather[0].icon;
@@ -54,37 +61,39 @@ function getForecast(lat, lon) {
                 let futureWind = data.list[i * 8].wind.speed;
                 let futureHumidity = data.list[i * 8].main.humidity;
 
-                //dt_text format = YYYY-MM-DD HH:mm:ss
-                let fiveDayDate = response.list[i * 8].dt_txt.slice(5 , -9);
-                console.log('Five Day Date: ', fiveDayDate);
+                // PUSH DATA TO ARRAY
+                forecastData.push({
+                    date: futureDate,
+                    icon: iconURLfuture,
+                    temp: futureTemperature,
+                    wind: futureWind,
+                    humidity: futureHumidity
+                });
+            }
 
-                //CREATE THE FORECAST CARDS for each Date
-                $('#cardssection').append(`<div id="fiveday-${i}" class="row d-flex justify-content-around w-100 p-3"></div>`);
-                $('#fiveday-${i}').append(`<h5 class ="col-md-2 border futuredate">${futureDate}</h5>`);
-            }
-        
-            //create the forecast card only if the future date matches the fiveDayDate variable
-            $('.futuredate').each(function () {
-                let indivFutureDate = $(this).text();
-                    $(this).append(`<div id="forecastcard" class="forecastcard"></div>`);
-                    $('#forecastcard').hide();
-                    $('#forecastcard').empty();
-                    
-                $('#fiveday-1 h5').each(function () {
+
+            //CREATE THE FORECAST CARDS FROM ARRAY
+            forecastData.forEach((data, index) => {
+                $('#cardssection').append(`<div id="fiveday-${index}" class="row d-flex justify-content-around w-100 p-3"></div>`);
+                $(`#fiveday-${index}`).append(`<h5 class ="col-md-2 border futuredate">${data.date}</h5>`);
+                $(`#fiveday-${index} .futuredate`).append(`<div id="forecastcard-${index}" class="forecastcard"></div>`);
+                $(`#forecastcard-${index}`).hide();
+                $(`#forecastcard-${index}`).empty();
+
+                $(`#fiveday-${index} h5`).each(function () {
                     let cardFutureDate = $(this).text();
-                    if (cardFutureDate === indivFutureDate) {
-                        $('#forecastcard').show();
-                        // ICON
-                        $('#forecastcard').append(`<img src="${iconURLfuture}"></img>`);
-                        //FORECAST
-                        $('#forecastcard').append(`<p class="temperature">Temperature: ${futureTemperature}\u00B0F</p>`);
-                        $('#forecastcard').append(`<p class="wind">Wind Speed: ${futureWind} mph</p>`);
-                        $('#forecastcard').append(`<p class="humidity">Humidity: ${futureHumidity}%</p>`);
-                        }
+                    if (cardFutureDate === data.date) {
+                        $(`#forecastcard-${index}`).show();
+                        $(`#forecastcard-${index}`).append(`<img src="${data.icon}"></img>`);
+                        $(`#forecastcard-${index}`).append(`<p class="temperature">Temperature: ${data.temp}\u00B0F</p>`);
+                        $(`#forecastcard-${index}`).append(`<p class="wind">Wind Speed: ${data.wind} mph</p>`);
+                        $(`#forecastcard-${index}`).append(`<p class="humidity">Humidity: ${data.humidity}%</p>`);
+                    }
                 })
-            }
+            });
         })
-};
+}
+
 
 
 
@@ -138,6 +147,6 @@ $('#searchbtn').on('click', displayCity);
 
 //Check data in localStorage for the city when the button is clicked
 $('.historybtn').on('click', function () {
-    let clickedHistoryBtn = $('historybtn').text();
+    let clickedHistoryBtn = $(this).text().val();
     displayCity(clickedHistoryBtn)
 })
