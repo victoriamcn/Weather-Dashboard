@@ -2,7 +2,7 @@
 
 ## Description
 
-A simple weather application that runs in the browser. It utilizes the [5 Day Weather Forecast](https://openweathermap.org/forecast5) API to retrieve weather data for cities. 
+A weather application that utilizes the [5 Day Weather Forecast](https://openweathermap.org/forecast5) API to retrieve weather data for cities for the current day and the next five days. Users’ city searches are stored with localStorage and are displayed on the left hand side of the screen. Once a past searched city is clicked, the user can see the weather for that city again.
 
 ## Table of Contents
 - [Preview](#preview)
